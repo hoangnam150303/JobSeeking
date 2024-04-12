@@ -1,6 +1,7 @@
 ﻿@model List<ApplicationUser>
 
 @using JobSeeking.Models.ViewModels
+@using Newtonsoft.Json
 <h1>User</h1>
 <a asp-area="Identity" asp-page="/Account/EmployerRegister" class="btn btn-primary">Create Employer Account </a>
 
@@ -26,7 +27,7 @@
                 <td>@obj.City</td>
                 <td>@obj.PhoneNumber</td>
                 <td>@obj.Company</td>
-          
+                <td>@JsonConvert.SerializeObject(obj.Roles)</td>
                 @if (obj.isValid == true)
                 {
                     <td>Valid</td>

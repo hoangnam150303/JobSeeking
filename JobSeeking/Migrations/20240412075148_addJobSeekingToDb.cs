@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace JobSeeking.Migrations
 {
     /// <inheritdoc />
-    public partial class AddCategoryToDb : Migration
+    public partial class addJobSeekingToDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,6 +39,7 @@ namespace JobSeeking.Migrations
                     Company = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isValid = table.Column<bool>(type: "bit", nullable: true),
                     Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Roles = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),

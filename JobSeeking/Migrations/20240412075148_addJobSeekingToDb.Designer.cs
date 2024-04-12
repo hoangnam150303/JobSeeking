@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobSeeking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240411035328_addApplyCVToDb")]
-    partial class addApplyCVToDb
+    [Migration("20240412075148_addJobSeekingToDb")]
+    partial class addJobSeekingToDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -406,6 +406,10 @@ namespace JobSeeking.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Roles")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

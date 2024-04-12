@@ -406,6 +406,10 @@ namespace JobSeeking.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Roles")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("isValid")
                         .HasColumnType("bit");
 
