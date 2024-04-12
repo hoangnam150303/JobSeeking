@@ -149,8 +149,7 @@ namespace JobSeeking.Areas.Identity.Pages.Account
                     user.Avatar = "/images/avatars/" + fileName;
                 }
                 user.isValid = true;
-                var allRoles = _roleManager.Roles.Select(r => r.Name).ToList();
-                user.Roles = allRoles;
+                user.Roles = "Admin";
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

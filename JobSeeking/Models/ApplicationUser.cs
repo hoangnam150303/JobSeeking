@@ -13,7 +13,7 @@ namespace JobSeeking.Models
         public string? Company {  get; set; }
         public bool isValid {  get; set; }
         public string? Avatar {  get; set; }
-        public List<string> Roles { get; set; }
+        public string Roles {  get; set; }
 
 
     }

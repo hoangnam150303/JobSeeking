@@ -136,6 +136,7 @@ namespace JobSeeking.Areas.Identity.Pages.Account
                 user.City= Input.City;
                 user.Company=Input.Company;
                 user.isValid = true;
+                user.Roles = "Employer";
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -160,7 +161,7 @@ namespace JobSeeking.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        
                         return LocalRedirect(returnUrl);
                     }
                 }
@@ -170,7 +171,7 @@ namespace JobSeeking.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+           
             return Page();
         }
 
