@@ -1,0 +1,41 @@
+﻿@model List<ApplicationUser>
+
+@using JobSeeking.Models.ViewModels
+<h1>User</h1>
+<a asp-area="Identity" asp-page="/Account/EmployerRegister" class="btn btn-primary">Create Employer Account </a>
+
+</div>
+<table class="table table-bordered">
+    <thead>
+       <tr>
+            <td>Name</td>
+            <td>Address</td>
+            <td>City</td>
+            <td>Phone Number</td>
+            <td>Company</td>
+            <td>Role</td>
+            <td>Valid</td>
+       </tr>
+    </thead>
+    <tbody>
+        @foreach(var obj in Model)
+        {
+            <tr>
+                <td>@obj.Name</td>
+                <td>@obj.Address</td>
+                <td>@obj.City</td>
+                <td>@obj.PhoneNumber</td>
+                <td>@obj.Company</td>
+          
+                @if (obj.isValid == true)
+                {
+                    <td>Valid</td>
+                }
+                else
+                {
+                    <td>unValid</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
