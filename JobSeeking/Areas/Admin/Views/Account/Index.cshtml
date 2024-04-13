@@ -1,15 +1,15 @@
-﻿@model List<ApplicationUser>
+﻿@using Microsoft.AspNetCore.Identity
 @inject UserManager<ApplicationUser> UserManager
-@using JobSeeking.Models.ViewModels
-@using Microsoft.AspNetCore.Identity
-@using Newtonsoft.Json
+@model List<ApplicationUser>
+
 <h1>User</h1>
 <a asp-area="Identity" asp-page="/Account/EmployerRegister" class="btn btn-primary">Create Employer Account</a>
-
+<br />
 <div class="row">
     @foreach (var obj in Model)
     {
-        @if (obj.Roles == "Employer" || obj.Roles == "Job Seeker")
+        var userRoles = await UserManager.GetRolesAsync(obj);
+        if (userRoles.Contains("Employer") || userRoles.Contains("Job Seeker"))
         {
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card">
@@ -22,15 +22,16 @@
                         {
                             <p class="card-text">Company: @obj.Company</p>
                         }
-                        @if (obj.Roles == "Employer")
+                        
+                        @if (userRoles.Contains("Employer"))
                         {
                             <p class="card-text text-success">Employer</p>
                         }
-                        else if (obj.Roles == "Job Seeker")
+                        else if (userRoles.Contains("Job Seeker"))
                         {
                             <p class="card-text text-primary">Job Seeker</p>
                         }
-                        @if (obj.isValid==true)
+                        @if (obj.isValid)
                         {
                             <p class="card-text text-success">Valid</p>
                         }

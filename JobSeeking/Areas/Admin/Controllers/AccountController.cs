@@ -59,5 +59,14 @@ namespace JobSeeking.Areas.Admin.Controllers
             }
         }
 
+        public async Task<IActionResult> Update(string Id)
+        {
+            var user = await _userManager.FindByIdAsync(Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
     }
 }

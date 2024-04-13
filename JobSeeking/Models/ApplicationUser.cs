@@ -1,6 +1,4 @@
 ﻿
-
-
 using Microsoft.AspNetCore.Identity;
 
 namespace JobSeeking.Models
@@ -13,7 +11,7 @@ namespace JobSeeking.Models
         public string? Company {  get; set; }
         public bool isValid {  get; set; }
         public string? Avatar {  get; set; }
-        public string Roles {  get; set; }
+        
 
 
     }

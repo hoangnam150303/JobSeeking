@@ -108,7 +108,7 @@ namespace JobSeeking.Areas.Identity.Pages.Account
             public string? City { get; set; }
             public string? Address { get; set; }
             public string? Company {  get; set; }
-            public bool isValid {  get; set; }
+           
         }
 
 
@@ -138,7 +138,7 @@ namespace JobSeeking.Areas.Identity.Pages.Account
                 user.City= Input.City;
                 user.Company=Input.Company;
                 user.isValid = true;
-                user.Roles = "Employer";
+              
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
