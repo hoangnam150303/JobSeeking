@@ -24,19 +24,19 @@ namespace JobSeeking.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IUserStore<IdentityUser> _userStore;
-        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            IUserStore<ApplicationUser> userStore,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             RoleManager<IdentityRole> roleManager,
             IWebHostEnvironment webHostEnvironment,
@@ -116,9 +116,9 @@ namespace JobSeeking.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            if (!_roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult()) 
+            if (!_roleManager.RoleExistsAsync("Job Seeker").GetAwaiter().GetResult()) 
             {
-                _roleManager.CreateAsync(new IdentityRole("Admin")).GetAwaiter().GetResult();            
+                _roleManager.CreateAsync(new IdentityRole("Job Seeker")).GetAwaiter().GetResult();            
                             
             }
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -132,7 +132,7 @@ namespace JobSeeking.Areas.Identity.Pages.Account
             {
                 string wwwrootPath = _webHostEnvironment.WebRootPath;
                 var user = CreateUser();
-                _userManager.AddToRoleAsync(user, "Admin").GetAwaiter().GetResult();
+                _userManager.AddToRoleAsync(user, "Job Seeker").GetAwaiter().GetResult();
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.Name = Input.Name;
@@ -149,7 +149,7 @@ namespace JobSeeking.Areas.Identity.Pages.Account
                     user.Avatar = "/images/avatars/" + fileName;
                 }
                 user.isValid = true;
-                user.Roles = "Admin";
+                user.Roles = "Job Seeker";
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -202,13 +202,13 @@ namespace JobSeeking.Areas.Identity.Pages.Account
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
+        private IUserEmailStore<ApplicationUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)_userStore;
+            return (IUserEmailStore<ApplicationUser>)_userStore;
         }
     }
 }

@@ -5,6 +5,7 @@ using JobSeeking.Repository.IRepository;
 using JobSeeking.Repository;
 using JobSeeking.Ultility;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using JobSeeking.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 (builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddRazorPages();
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity <ApplicationUser,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddScoped<IEmailSender,EmailSender>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.ConfigureApplicationCookie(option =>

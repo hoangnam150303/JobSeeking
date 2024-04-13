@@ -1,42 +1,50 @@
 ﻿@model List<ApplicationUser>
-
+@inject UserManager<ApplicationUser> UserManager
 @using JobSeeking.Models.ViewModels
+@using Microsoft.AspNetCore.Identity
 @using Newtonsoft.Json
 <h1>User</h1>
-<a asp-area="Identity" asp-page="/Account/EmployerRegister" class="btn btn-primary">Create Employer Account </a>
+<a asp-area="Identity" asp-page="/Account/EmployerRegister" class="btn btn-primary">Create Employer Account</a>
 
-</div>
-<table class="table table-bordered">
-    <thead>
-       <tr>
-            <td>Name</td>
-            <td>Address</td>
-            <td>City</td>
-            <td>Phone Number</td>
-            <td>Company</td>
-            <td>Role</td>
-            <td>Valid</td>
-       </tr>
-    </thead>
-    <tbody>
-        @foreach(var obj in Model)
+<div class="row">
+    @foreach (var obj in Model)
+    {
+        @if (obj.Roles == "Employer" || obj.Roles == "Job Seeker")
         {
-            <tr>
-                <td>@obj.Name</td>
-                <td>@obj.Address</td>
-                <td>@obj.City</td>
-                <td>@obj.PhoneNumber</td>
-                <td>@obj.Company</td>
-                <td>@obj.Roles</td>
-                @if (obj.isValid == true)
-                {
-                    <td>Valid</td>
-                }
-                else
-                {
-                    <td>unValid</td>
-                }
-            </tr>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        Email: @obj.Email
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@obj.Name</h5>
+                        @if (!string.IsNullOrEmpty(obj.Company))
+                        {
+                            <p class="card-text">Company: @obj.Company</p>
+                        }
+                        @if (obj.Roles == "Employer")
+                        {
+                            <p class="card-text text-success">Employer</p>
+                        }
+                        else if (obj.Roles == "Job Seeker")
+                        {
+                            <p class="card-text text-primary">Job Seeker</p>
+                        }
+                        @if (obj.isValid==true)
+                        {
+                            <p class="card-text text-success">Valid</p>
+                        }
+                        else
+                        {
+                            <p class="card-text text-danger">Invalid</p>
+                        }
+                    </div>
+                    <div class="card-footer">
+                        <a asp-action="Delete" asp-route-Id="@obj.Id" class="btn btn-danger">Delete</a>
+                        <a asp-action="LockAccount" asp-route-Id="@obj.Id" class="btn btn-danger">Lock Account</a>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    }
+</div>

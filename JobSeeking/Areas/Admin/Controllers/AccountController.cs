@@ -3,37 +3,60 @@
 using JobSeeking.Models;
 using JobSeeking.Models.ViewModels;
 using JobSeeking.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobSeeking.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class AccountController : Controller
     {
       
         private readonly IUnitOfWork _unitOfWork;
-        private readonly RoleManager<IdentityRole> _roleManager;    
+  
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AccountController(IUnitOfWork unitOfWork,RoleManager<IdentityRole> roleManager) {
+        public AccountController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager) {
             _unitOfWork = unitOfWork;
-            _roleManager = roleManager;
-           
+ 
+            _userManager = userManager;           
         }
-
+        //View all user 
         public IActionResult Index()
         {
             List<ApplicationUser> myList = _unitOfWork.ApplicationUserRepository.GetAll().ToList();
             return View(myList);
         }
-        public IActionResult Delete(int? id)
+        //Delete Account
+       public async Task<IActionResult> Delete(string id)
         {
-            if (id == null||id==0)
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
-
-            return View(id);
+            else
+            {
+                await _userManager.DeleteAsync(user);
+                return RedirectToAction("Index");
+            }
+        }
+        //Lock Account
+        public async Task<IActionResult> LockAccount(string Id)
+        {
+            var user = await _userManager.FindByIdAsync(Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+           else
+            {
+                user.isValid = false;
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Index");
+            }
         }
 
     }

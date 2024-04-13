@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobSeeking.Data
 {
-    public class ApplicationDbContext:IdentityDbContext
+    public class ApplicationDbContext:IdentityDbContext<ApplicationUser>
     {
       
         public DbSet<Job> Jobs { get; set; }
@@ -14,7 +14,7 @@ namespace JobSeeking.Data
         public DbSet<ApplyCV> ApplyCV { get; set; }
         public DbSet<ApplicationUser> applicationUsers { get; set; }
         
-        public ApplicationDbContext(DbContextOptions options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
