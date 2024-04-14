@@ -8,7 +8,6 @@ namespace JobSeeking.Repository
         public ApplicationDbContext _db;
         public ICategoryRepository CategoryRepository { get; private set; }
         public IJobRepository JobRepository { get; private set; }
-        public IPostCategoryRepository PostCategoryRepository { get; private set; }
         public INewsRepository PostsRepository { get; private set; }
         public IApplicationUserRepository UserRepository { get; private set; }
 
@@ -21,7 +20,6 @@ namespace JobSeeking.Repository
             _db = db;
             CategoryRepository = new CategoryRepository(db);
             JobRepository = new JobRepository(db);
-            PostCategoryRepository = new PostCategoryRepository(db);
             ApplicationUserRepository = new ApplicationUserRepository(db);
             NewsRepository = new NewsRepository(db);
         }

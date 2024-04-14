@@ -24,9 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Employer\Views\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Views\Home\" />
     <Folder Include="wwwroot\images\avatars\" />
   </ItemGroup>
 

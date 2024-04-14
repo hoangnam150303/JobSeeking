@@ -1,0 +1,31 @@
+﻿
+@model List<Category>
+@using JobSeeking.Models
+<h1>All Categories</h1>
+<a asp-action="Create" class="btn btn-primary">Create Category</a>
+<div class="row">
+        @foreach (var obj in Model)
+        {
+        @if (obj.isValid == true)
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                    <h5>  Name: @obj.Name</h5>
+                    </div>
+                    <div class="card-body">
+                    <h5>
+                        Valid:@obj.isValid
+                    </h5>
+                    <h5>
+                        Time Create: @obj.CreateDay
+                    </h5>
+                    </div>
+                    <div class="card-footer">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    
+</div>

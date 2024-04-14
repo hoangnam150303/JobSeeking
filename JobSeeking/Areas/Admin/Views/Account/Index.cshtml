@@ -1,9 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject UserManager<ApplicationUser> UserManager
 @model List<ApplicationUser>
-
 <h1>User</h1>
 <a asp-area="Identity" asp-page="/Account/EmployerRegister" class="btn btn-primary">Create Employer Account</a>
+<br />
 <br />
 <div class="row">
     @foreach (var obj in Model)
@@ -41,10 +41,12 @@
                         }
                     </div>
                     <div class="card-footer">
-                        <a asp-action="Delete" asp-route-Id="@obj.Id" class="btn btn-danger">Delete</a>
-                        <a asp-action="LockAccount" asp-route-Id="@obj.Id" class="btn btn-danger">Lock Account</a>
+                        <a asp-action="Delete" asp-route-Id="@obj.Id" class="btn btn-danger"
+                        onclick="return confirm('Are you want to delete user:@obj.Email')">Delete</a>
+                        <a asp-action="LockAccount" asp-route-Id="@obj.Id" class="btn btn-warning"
+                           onclick="return confirm('Are you want to Lock & Unlock user:@obj.Email')">Lock & Unlock Account</a>
                     </div>
-                </div>
+                </div>`1    
             </div>
         }
     }

@@ -1,7 +1,4 @@
-﻿
-
-using JobSeeking.Models;
-using JobSeeking.Models.ViewModels;
+﻿using JobSeeking.Models;
 using JobSeeking.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,7 +17,6 @@ namespace JobSeeking.Areas.Admin.Controllers
 
         public AccountController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager) {
             _unitOfWork = unitOfWork;
- 
             _userManager = userManager;           
         }
         //View all user 
@@ -53,20 +49,21 @@ namespace JobSeeking.Areas.Admin.Controllers
             }
            else
             {
-                user.isValid = false;
-                await _userManager.UpdateAsync(user);
-                return RedirectToAction("Index");
+                if (user.isValid==false)
+                {
+                    user.isValid = true;
+                    await _userManager.UpdateAsync(user);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    user.isValid = false;
+                    await _userManager.UpdateAsync(user);
+                    return RedirectToAction("Index");
+                }
             }
         }
 
-        public async Task<IActionResult> Update(string Id)
-        {
-            var user = await _userManager.FindByIdAsync(Id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return View(user);
-        }
+        
     }
 }
