@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace JobSeeking.Models.ViewModels
 {
     public class JobSeekingVM
     {
-       public Category Category{  get; set; }
-       public IEnumerable<SelectListItem> User {  get; set; }
+       public Job Job{  get; set; }
+        [ValidateNever]
+       public IEnumerable<SelectListItem> Category {  get; set; }
+       /* public List<string> SelectedCategories { get; set; }*/
     }
 }

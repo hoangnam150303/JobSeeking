@@ -1,0 +1,32 @@
+﻿@model List<Job>
+<h1>Your Jobs</h1>
+<a asp-action="Create" class="btn btn-primary">Create New Job</a>
+<div class="row">
+    @foreach (var job in Model)
+    {
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>@job.Name</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Description:</strong> @job.Description</p>
+                    <p><strong>Salary:</strong> @job.Salary</p>
+                    <p><strong>Company Name:</strong> @job.CompanyName</p>
+                    @if (!string.IsNullOrEmpty(job.Logo))
+                    {
+                        <img src="@job.Logo" class="card-img-top" alt="Company Logo">
+                    }
+                </div>
+               @*  <div class="card-footer">
+                    <strong>Categories:</strong>
+                    @foreach (var categoryId in job.Category)
+                    {
+                        var categoryName = GetCategoryName(categoryId);
+                        <span class="badge bg-primary">@categoryName</span>
+                    }
+                </div> *@
+            </div>
+        </div>
+    }
+</div>

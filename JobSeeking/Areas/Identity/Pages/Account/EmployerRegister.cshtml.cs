@@ -107,11 +107,10 @@ namespace JobSeeking.Areas.Identity.Pages.Account
             public string Name { get; set; }
             public string? City { get; set; }
             public string? Address { get; set; }
-            public string? Company {  get; set; }
-           
+            public string? Company { get; set; }
+            public string? Avatar {  get; set; }
+
         }
-
-
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
@@ -123,7 +122,7 @@ namespace JobSeeking.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(IFormFile? file, string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -137,6 +136,22 @@ namespace JobSeeking.Areas.Identity.Pages.Account
                 user.Address = Input.Address;
                 user.City= Input.City;
                 user.Company=Input.Company;
+                string wwwrootPath = _webHostEnvironment.WebRootPath;
+                string uploadsFolder = Path.Combine(wwwrootPath, @"images\Avatars");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string bookPath = Path.Combine(wwwrootPath, @"images\Avatars");
+                    using (var fileStream = new FileStream(Path.Combine(bookPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    user.Avatar = @"\images\Avatars\" + fileName;
+                }
                 user.isValid = true;
               
                 var result = await _userManager.CreateAsync(user, Input.Password);

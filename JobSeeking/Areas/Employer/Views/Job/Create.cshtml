@@ -1,0 +1,37 @@
+﻿@using JobSeeking.Models.ViewModels
+@model JobSeekingVM
+
+<h1>Create Job</h1>
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Job.Name" class="control-label"></label>
+        <input asp-for="Job.Name" class="form-control" />
+        <span asp-validation-for="Job.Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.Description" class="control-label"></label>
+        <textarea asp-for="Job.Description" class="form-control"></textarea>
+        <span asp-validation-for="Job.Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.Salary" class="control-label"></label>
+        <input asp-for="Job.Salary" class="form-control" />
+        <span asp-validation-for="Job.Salary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.CompanyName" class="control-label"></label>
+        <input asp-for="Job.CompanyName" class="form-control" />
+        <span asp-validation-for="Job.CompanyName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.Logo" class="control-label"></label>
+        <input type="file" name="Job.Logo" class="form-control" />
+        <span asp-validation-for="Job.Logo" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.Category" class="col-sm-4 col-form-label">Category</label>
+        <select asp-for="Job.Category" class="form-select" asp-items="@Model.Category" multiple></select>
+        <span asp-validation-for="Job.Category" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

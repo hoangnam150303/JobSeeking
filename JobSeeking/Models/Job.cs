@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobSeeking.Models
@@ -11,9 +12,12 @@ namespace JobSeeking.Models
         public double Salary {  get; set; }
         public string CompanyName {  get; set; }
         public string? Logo {  get; set; }
-        public int CategoryId {  get; set; }
-        [ForeignKey("CategoryId")]
+        [BindProperty]
+        public string[] Category {  get; set; }
         [ValidateNever]
-        public Category Category { get; set; }
+        public string EmployerId {  get; set; }
+        [ForeignKey("EmployerId")]
+        [ValidateNever]
+        public ApplicationUser User { get; set; }
     }
 }
