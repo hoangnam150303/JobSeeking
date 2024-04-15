@@ -19,18 +19,27 @@ namespace JobSeeking.Areas.Admin.Controllers
             List<Category> categories = _unitOfWork.CategoryRepository.GetAll().ToList();
             return View(categories);
         }
-        [HttpPost]
-        public IActionResult Accept(int id)
-        {   
-            var category = _unitOfWork.CategoryRepository.Get(c=>c.Id==id);
+      
+        public IActionResult Accept( int id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            Category category = _unitOfWork.CategoryRepository.Get(c => c.Id == id);
             if (category == null)
             {
                 return NotFound();
             }
-            category.isValid = true;
-            _unitOfWork.CategoryRepository.Update(category);
-            _unitOfWork.CategoryRepository.Save();
-            return RedirectToAction("ResponeCategory","Index");
+            if (ModelState.IsValid)
+            {
+                 category.isValid = true;
+                _unitOfWork.CategoryRepository.Update(category);
+                _unitOfWork.CategoryRepository.Save();
+               
+                return RedirectToAction("Index");
+            }
+            return View(category);
         }
     }
 }

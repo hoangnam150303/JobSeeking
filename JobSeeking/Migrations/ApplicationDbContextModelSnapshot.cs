@@ -62,7 +62,7 @@ namespace JobSeeking.Migrations
                     b.Property<DateTime>("CreateDay")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EmployerID")
+                    b.Property<string>("EmployerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -75,7 +75,7 @@ namespace JobSeeking.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployerID");
+                    b.HasIndex("EmployerId");
 
                     b.ToTable("Categories");
                 });
@@ -388,7 +388,7 @@ namespace JobSeeking.Migrations
                 {
                     b.HasOne("JobSeeking.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("EmployerID")
+                        .HasForeignKey("EmployerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

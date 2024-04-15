@@ -1,4 +1,5 @@
 ﻿using JobSeeking.Models;
+using System.Linq.Expressions;
 
 namespace JobSeeking.Repository.IRepository
 {
@@ -6,4 +7,6 @@ namespace JobSeeking.Repository.IRepository
     {
         void Update(Category entity);
     }
+   
+
 }

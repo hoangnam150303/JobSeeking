@@ -13,7 +13,7 @@ namespace JobSeeking.Repository
         }
         public void Update(ApplicationUser user)
         {
-            _db.applicationUsers.Add(user);
+            _db.applicationUsers.Update(user);
         }
     }
 }

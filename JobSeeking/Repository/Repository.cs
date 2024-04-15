@@ -33,6 +33,7 @@ namespace JobSeeking.Repository
             }
             return query.FirstOrDefault();
         }
+        
         public void Add(T entity)
         {
             _dbSet.Add(entity);

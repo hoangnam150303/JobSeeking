@@ -5,7 +5,7 @@
 namespace JobSeeking.Migrations
 {
     /// <inheritdoc />
-    public partial class changeApplicationDbContext : Migration
+    public partial class addJobSeekingVM : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

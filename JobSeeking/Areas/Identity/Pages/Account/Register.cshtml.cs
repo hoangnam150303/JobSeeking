@@ -130,43 +130,29 @@ namespace JobSeeking.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                string wwwrootPath = _webHostEnvironment.WebRootPath;
-                string uploadsFolder = Path.Combine(wwwrootPath, "images", "avatars");
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
                 var user = CreateUser();
-                if (file != null && file.Length > 0)
-                {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string filePath = Path.Combine(uploadsFolder, fileName);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(fileStream);
-                    }
-
-                    // Set the user's avatar path
-                    user.Avatar = "/images/avatars/" + fileName;
-                }
                 _userManager.AddToRoleAsync(user, "Job Seeker").GetAwaiter().GetResult();
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.Name = Input.Name;
                 user.Address = Input.Address;
                 user.City = Input.City;
-               /* if (file != null)
+                string wwwrootPath = _webHostEnvironment.WebRootPath;
+                string uploadsFolder = Path.Combine(wwwrootPath, @"images\Avatars");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                if (file != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string bookPath = Path.Combine(wwwrootPath,@"images\avatars");
+                    string bookPath = Path.Combine(wwwrootPath, @"images\Avatars");
                     using (var fileStream = new FileStream(Path.Combine(bookPath, fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
-                    user.Avatar = @"\images\avatars\" + fileName;
-                }*/
+                    user.Avatar = @"\images\Avatars\" + fileName;
+                }
                 user.isValid = true;
                 
                 var result = await _userManager.CreateAsync(user, Input.Password);

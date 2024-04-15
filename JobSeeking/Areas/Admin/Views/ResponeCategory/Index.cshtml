@@ -17,9 +17,13 @@
                             <h5>
                                 Time Create: @obj.CreateDay
                             </h5>
+                            <h5>
+                                Email:@obj.User.Email
+                            </h5>
                         </div>
                         <div class="card-footer">
-                            <a asp-action="Accept" asp-route-Id="@obj.Id" class="btn btn-primary">Accept</a>
+                        <a asp-area="Admin" asp-controller="ResponeCategory" asp-action="Accept" asp-route-Id="@obj.Id" class="btn btn-primary"
+                           onclick="return confirm('Are you want to accept user:@obj.Name')">Accept</a>
                         </div>
                     </div>
                 </div>

@@ -13,7 +13,7 @@ namespace JobSeeking.Repository
         }
         public void Update(Category category)
         {
-            _db.Categories.Add(category);
+            _db.Categories.Update(category);
         }
     }
 }
