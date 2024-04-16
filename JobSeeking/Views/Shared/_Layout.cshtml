@@ -11,6 +11,9 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
+    <div class="page-loading">
+        <img src="~/images/scr_01.gif" />
+    </div>
     <header>
         <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
             <div class="container-fluid">
@@ -75,5 +78,41 @@
         });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            // Hide loading indicator initially
+            $('.page-loading').hide();
+
+            // Show loading indicator when navigating between pages
+            $(document).on('click', 'a', function () {
+                $('.page-loading').show();
+            });
+
+            // Hide loading indicator when the page is fully loaded
+            $(window).on('load', function () {
+                $('.page-loading').hide();
+            });
+        });
+    </script>
 </body>
+<style>
+    .page-loading {
+        background-color: #ffffff;
+        display: none; /* Hide by default */
+        height: 100%;
+        left: 0;
+        position: fixed;
+        text-align: center;
+        top: 0;
+        width: 100%;
+        z-index: 2147483647;
+    }
+
+        .page-loading > img {
+            left: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+</style>
 </html>

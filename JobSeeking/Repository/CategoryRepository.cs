@@ -24,6 +24,11 @@ namespace JobSeeking.Repository
             }
             return query.ToList();
         }
+        public string GetCategoryNameById(int categoryId)
+        {
+            var category = _db.Categories.FirstOrDefault(c => c.Id == categoryId);
+            return category?.Name;
+        }
 
         public void Update(Category category)
         {

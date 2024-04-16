@@ -15,16 +15,7 @@ namespace JobSeeking.Repository
             _db = db;
         }
 
-        public IEnumerable<Job> GetAllWithUser(Expression<Func<Job, bool>> predicate = null)
-        {
-            IQueryable<Job> query = _db.Jobs.Include(c => c.User);
-            if (predicate != null)
-            {
-                query = query.Where(predicate);
-            }
-            return query.ToList();
-        }
-
+  
         public void Update(Job job)
         {
             _db.Jobs.Update(job);

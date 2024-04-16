@@ -28,9 +28,9 @@
         <input type="file" name="Job.Logo" class="form-control" />
         <span asp-validation-for="Job.Logo" class="text-danger"></span>
     </div>
-    <div class="form-group">
+   <div class="form-group">
         <label asp-for="Job.Category" class="col-sm-4 col-form-label">Category</label>
-        <select asp-for="Job.Category" class="form-select" asp-items="@Model.Category" multiple></select>
+        <select asp-for="Job.Category" class="form-select" asp-items="@Model.Category.Select(c => new SelectListItem { Text = c.Text, Value = c.Value })" multiple></select>
         <span asp-validation-for="Job.Category" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Create</button>

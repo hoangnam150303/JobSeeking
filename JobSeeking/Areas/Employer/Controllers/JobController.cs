@@ -21,8 +21,24 @@ namespace JobSeeking.Areas.Employer.Controllers
         }
         public IActionResult Index()
         {
-            List<Job> myList = _unitOfWork.JobRepository.GetAll().ToList();
-            return View(myList);
+            List<Job> jobs = _unitOfWork.JobRepository.GetAll().ToList();
+            foreach (var job in jobs)
+            {
+                var categories = new List<string>();
+
+                foreach (var categoryIdString in job.Category)
+                {
+                   int categoryId = int.Parse(categoryIdString);
+                    var categoryName = _unitOfWork.CategoryRepository.GetCategoryNameById(categoryId);
+                    if (categoryName != null)
+                    {
+                        categories.Add(categoryName);
+                    }
+                }
+                job.Category = categories.ToArray();
+            }
+
+            return View(jobs);
         }
         public IActionResult Create()
         {
@@ -39,26 +55,21 @@ namespace JobSeeking.Areas.Employer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(JobSeekingVM model)
+        public async Task<IActionResult> Create(Job job)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = await _userManager.GetUserAsync(User);
                 if (currentUser != null)
                 {
-                    model.Job.EmployerId = currentUser.Id;
-                    _unitOfWork.JobRepository.Add(model.Job);
+                    job.EmployerId = currentUser.Id;
+                    _unitOfWork.JobRepository.Add(job);
                     _unitOfWork.JobRepository.Save();
                     return RedirectToAction("Index");
                 }
             }
-            model.Category = _unitOfWork.CategoryRepository.GetAll().Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
-            {
-                Text = c.Name,
-                Value = c.Id.ToString(),
-            }
-            );
-            return View(model);
+            
+            return View(job);
         }
     }
 }
