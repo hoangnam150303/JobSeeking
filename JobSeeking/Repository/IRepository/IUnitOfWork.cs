@@ -6,6 +6,7 @@
         ICategoryRepository CategoryRepository { get; }
         INewsRepository NewsRepository { get; }
         IApplicationUserRepository ApplicationUserRepository { get; }
+        IApplyCVRepository ApplyCVRepository { get; }
         void Save();
     }
 }

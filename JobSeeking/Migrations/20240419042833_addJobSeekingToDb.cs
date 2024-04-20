@@ -211,15 +211,16 @@ namespace JobSeeking.Migrations
                     Salary = table.Column<double>(type: "float", nullable: false),
                     CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Logo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Jobs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Jobs_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        name: "FK_Jobs_AspNetUsers_EmployerId",
+                        column: x => x.EmployerId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -231,6 +232,7 @@ namespace JobSeeking.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     JobId = table.Column<int>(type: "int", nullable: false),
+                    JobSeekerEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TimeCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CV = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -296,9 +298,9 @@ namespace JobSeeking.Migrations
                 column: "EmployerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Jobs_CategoryId",
+                name: "IX_Jobs_EmployerId",
                 table: "Jobs",
-                column: "CategoryId");
+                column: "EmployerId");
         }
 
         /// <inheritdoc />
@@ -323,6 +325,9 @@ namespace JobSeeking.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
                 name: "News");
 
             migrationBuilder.DropTable(
@@ -330,9 +335,6 @@ namespace JobSeeking.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

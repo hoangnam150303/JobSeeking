@@ -10,6 +10,7 @@ namespace JobSeeking.Models
         [ForeignKey("JobId")]
         [ValidateNever]
         public Job Job { get; set; }
+        public string JobSeekerEmail {  get; set; }
         public DateTime TimeCreate { get; set; }= DateTime.Now;
         public string Description {  get; set; }
         public string CV {  get; set; }

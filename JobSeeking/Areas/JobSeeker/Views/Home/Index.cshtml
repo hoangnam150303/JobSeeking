@@ -1,8 +1,31 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model List<Job>
 
 <div class="text-center">
-   <h1>Where you can find many job</h1>
-
+   <h1>Where you can find many job</h1
+</div>
+<div class="row">
+    @foreach (var job in Model)
+    {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>@job.Name</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Description:</strong> @job.Description</p>
+                        <p><strong>Salary:</strong> @job.Salary</p>
+                        <p><strong>Company Name:</strong> @job.CompanyName</p>
+                            <img src="@job.Logo" class="card-img-top" alt="Company Logo">
+                    <strong>Categories:</strong>
+                    @foreach (var categoryName in job.Category)
+                    {
+                        <span class="badge bg-primary">@categoryName</span>
+                    }
+                    </div>
+                    <div class="card-footer">
+                        <a asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Create" asp-route-Id="@job.Id" class="btn btn-primary">Apply</a>
+                    </div>
+                </div>
+            </div>
+    }
 </div>

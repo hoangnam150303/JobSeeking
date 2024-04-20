@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="wwwroot\CV\ApplyCV\" />
     <Folder Include="wwwroot\images\Avatars\" />
   </ItemGroup>
 

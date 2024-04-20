@@ -18,6 +18,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddIdentity <ApplicationUser,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddScoped<IEmailSender,EmailSender>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+builder.Services.AddScoped<Category>();
 builder.Services.ConfigureApplicationCookie(option =>
 {
     option.AccessDeniedPath = $"/Identity/Account/AccessDenied";

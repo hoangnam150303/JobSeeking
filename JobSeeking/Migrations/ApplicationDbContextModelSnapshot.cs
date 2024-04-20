@@ -41,6 +41,10 @@ namespace JobSeeking.Migrations
                     b.Property<int>("JobId")
                         .HasColumnType("int");
 
+                    b.Property<string>("JobSeekerEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("TimeCreate")
                         .HasColumnType("datetime2");
 

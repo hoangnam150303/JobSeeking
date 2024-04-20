@@ -10,8 +10,7 @@
 <div class="row">
     @foreach (var job in Model)
     {
-       @*  if (job.EmployerId == job.User.Id)
-        { *@
+       
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card">
                     <div class="card-header">
@@ -21,24 +20,21 @@
                         <p><strong>Description:</strong> @job.Description</p>
                         <p><strong>Salary:</strong> @job.Salary</p>
                         <p><strong>Company Name:</strong> @job.CompanyName</p>
-                        @if (job.User != null)
-                        {
-                            <p><strong>Email:</strong> @job.User.Email</p>
-                        }
-                        @if (!string.IsNullOrEmpty(job.Logo))
-                        {
+                        <p><strong>Email:</strong> @job.User.Email</p>
                             <img src="@job.Logo" class="card-img-top" alt="Company Logo">
-                        }
+                    <strong>Categories:</strong>
+                    @foreach (var categoryName in job.Category)
+                    {
+                        <span class="badge bg-primary">@categoryName</span>
+                    }
                     </div>
                     <div class="card-footer">
-                        <strong>Categories:</strong>
-                        @foreach (var categoryName in job.Category)
-                        {
-                            <span class="badge bg-primary">@categoryName</span>
-                        }
+                       <a asp-area="Employer" asp-controller="Job" asp-action="Edit" asp-route-Id="@job.Id" class="btn btn-primary">Edit</a>
+                       <a asp-area="Employer" asp-controller="Job" asp-action="Delete" asp-route-Id="@job.Id" class="btn btn-primary"
+                       onclick="return confirm('Are you want to delete user:@job.Name')">Delete</a>
                     </div>
                 </div>
             </div>
-        @* } *@
+       
     }
 </div>

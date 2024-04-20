@@ -50,7 +50,12 @@
                                 <a class="nav-link text-white" asp-area="Employer" asp-controller="Job" asp-action="Index">Your Job</a>
                             </li>
                         }
-                      
+                         @if (User.Identity.IsAuthenticated && (User.IsInRole("JobSeeker")))
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Create">Your Job</a>
+                        </li>
+                        }
                     </ul>
                 </div>
                 <partial name="_LoginPartial" />
@@ -64,9 +69,7 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        @* <div class="container">
-            &copy; 2024 - JobSeeking - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div> *@
+       
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -98,7 +101,7 @@
 <style>
     .page-loading {
         background-color: #ffffff;
-        display: none; /* Hide by default */
+        content: "";
         height: 100%;
         left: 0;
         position: fixed;
@@ -112,7 +115,21 @@
             left: 50%;
             position: absolute;
             top: 50%;
-            transform: translate(-50%, -50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -ms-transform: translateX(-50%) translateY(-50%);
+            -o-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        .page-loading > span {
+            color: #b3b3b3;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 17px;
+            letter-spacing: 0;
+            margin-top: 30px;
+            text-decoration: underline;
         }
 </style>
 </html>

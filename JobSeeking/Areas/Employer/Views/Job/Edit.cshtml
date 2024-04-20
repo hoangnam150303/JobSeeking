@@ -1,8 +1,9 @@
 ﻿@using JobSeeking.Models.ViewModels
 @model JobSeekingVM
 
-<h1>Create Job</h1>
-<form asp-action="Create" method="post">
+<h1>Edit Category</h1>
+<form asp-action="Edit" method="post">
+    <input hidden asp-for="Job.Id" />
     <div class="form-group">
         <label asp-for="Job.Name" class="control-label"></label>
         <input asp-for="Job.Name" class="form-control" />
@@ -23,10 +24,5 @@
         <select asp-for="Job.Category" class="form-select" asp-items="@Model.Categories" multiple></select>
         <span asp-validation-for="Job.Category" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary">Edit</button>
 </form>
-@section Scripts {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}

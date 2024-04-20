@@ -12,12 +12,13 @@ namespace JobSeeking.Repository
         public IApplicationUserRepository UserRepository { get; private set; }
 
         public INewsRepository NewsRepository {  get; private set; }
-
+        public IApplyCVRepository ApplyCVRepository { get; private set; }
         public IApplicationUserRepository ApplicationUserRepository {  get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
+            ApplyCVRepository = new ApplyCVRepository(db);
             CategoryRepository = new CategoryRepository(db);
             JobRepository = new JobRepository(db);
             ApplicationUserRepository = new ApplicationUserRepository(db);

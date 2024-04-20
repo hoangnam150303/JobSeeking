@@ -4,6 +4,7 @@ using JobSeeking.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace JobSeeking.Areas.Employer.Controllers
 {
@@ -13,22 +14,24 @@ namespace JobSeeking.Areas.Employer.Controllers
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly UserManager <ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+
         public JobController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Job> jobs = _unitOfWork.JobRepository.GetAll().ToList();
+            var currentUser = await _userManager.GetUserAsync(User);
+            var jobs = _unitOfWork.JobRepository.GetAll().Where(j => j.EmployerId == currentUser.Id).ToList();
             foreach (var job in jobs)
             {
                 var categories = new List<string>();
 
                 foreach (var categoryIdString in job.Category)
                 {
-                   int categoryId = int.Parse(categoryIdString);
+                    int categoryId = int.Parse(categoryIdString);
                     var categoryName = _unitOfWork.CategoryRepository.GetCategoryNameById(categoryId);
                     if (categoryName != null)
                     {
@@ -42,34 +45,90 @@ namespace JobSeeking.Areas.Employer.Controllers
         }
         public IActionResult Create()
         {
-            JobSeekingVM jobSeekingVM = new JobSeekingVM() {
-                Category = _unitOfWork.CategoryRepository.GetAll().Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
-                {
-                    Text = c.Name,
+            JobSeekingVM jobSeekingVM = new JobSeekingVM
+            {
+                Categories = _unitOfWork.CategoryRepository.GetAll().Where(c => c.isValid).Select(c => new SelectListItem() 
+               {
+                    Text = c.Name, 
                     Value = c.Id.ToString(),
-                }),
-                Job = new Job()
-
+                })
             };
+
             return View(jobSeekingVM);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Job job)
+        public async Task<IActionResult> Create(JobSeekingVM jobSeeking)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = await _userManager.GetUserAsync(User);
                 if (currentUser != null)
                 {
-                    job.EmployerId = currentUser.Id;
-                    _unitOfWork.JobRepository.Add(job);
-                    _unitOfWork.JobRepository.Save();
+                    jobSeeking.Job.EmployerId = currentUser.Id;
+                    jobSeeking.Job.Logo = currentUser.Avatar;
+                    jobSeeking.Job.CompanyName = currentUser.Company;
+                    _unitOfWork.JobRepository.Add(jobSeeking.Job);
+                    _unitOfWork.Save();
                     return RedirectToAction("Index");
                 }
             }
+            return View(jobSeeking);
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            JobSeekingVM jobSeekingVM = new JobSeekingVM
+            {
+                Categories = _unitOfWork.CategoryRepository.GetAll().Where(c => c.isValid).Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString(),
+                })
+            };
+
+            if (jobSeekingVM.Job == null)
+            {
+                return NotFound();
+            }
+
+            return View(jobSeekingVM);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(JobSeekingVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.JobRepository.Update(model.Job);
+                _unitOfWork.Save();
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Job? job = _unitOfWork.JobRepository.Get(c=>c.Id == id);
+            if (job==null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _unitOfWork.JobRepository.Delete(job);
+                _unitOfWork.JobRepository.Save();
+                return RedirectToAction("Index");
+            }
             
-            return View(job);
         }
     }
 }

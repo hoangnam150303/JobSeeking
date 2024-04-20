@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobSeeking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240415023829_addJobSeekingVM")]
-    partial class addJobSeekingVM
+    [Migration("20240419042833_addJobSeekingToDb")]
+    partial class addJobSeekingToDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,10 @@ namespace JobSeeking.Migrations
 
                     b.Property<int>("JobId")
                         .HasColumnType("int");
+
+                    b.Property<string>("JobSeekerEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TimeCreate")
                         .HasColumnType("datetime2");
@@ -91,8 +95,9 @@ namespace JobSeeking.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
@@ -101,6 +106,10 @@ namespace JobSeeking.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmployerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
@@ -114,7 +123,7 @@ namespace JobSeeking.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("EmployerId");
 
                     b.ToTable("Jobs");
                 });
@@ -400,13 +409,13 @@ namespace JobSeeking.Migrations
 
             modelBuilder.Entity("JobSeeking.Models.Job", b =>
                 {
-                    b.HasOne("JobSeeking.Models.Category", "Category")
+                    b.HasOne("JobSeeking.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("EmployerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
