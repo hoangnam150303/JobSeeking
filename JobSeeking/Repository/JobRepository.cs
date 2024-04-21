@@ -14,8 +14,6 @@ namespace JobSeeking.Repository
         {
             _db = db;
         }
-
-  
         public void Update(Job job)
         {
             _db.Jobs.Update(job);

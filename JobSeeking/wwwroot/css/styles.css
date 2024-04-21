@@ -1,0 +1,105 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    font-family: arial;
+    color: #fff;
+    box-sizing: border-box; /* Add this to include padding and border in the element's total width and height */
+}
+
+body {
+    background: #081b29;
+    overflow-y: auto; /* Add this to enable vertical scrolling if needed */
+}
+
+.wrapper {
+    max-width: 800px; /* Change width to max-width */
+    margin: 100px auto; /* Center the wrapper */
+    padding: 20px; /* Add some padding */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 3px solid #00ffff;
+    box-shadow: 0 0 50px 0 #00a6bc;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.title {
+    font-size: 35px;
+}
+
+.inp {
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+.input {
+    border: none;
+    outline: none;
+    background: none;
+    width: 260px;
+    margin-top: 40px;
+    padding-right: 10px;
+    font-size: 17px;
+    color: #0ef;
+}
+
+.submit {
+    border: none;
+    outline: none;
+    width: 288px;
+    margin-top: 25px;
+    padding: 10px 0;
+    font-size: 20px;
+    border-radius: 40px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #0ef, #c800ff);
+}
+
+.footer {
+    margin-top: 30px;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+}
+
+.link {
+    color: #0ef;
+    text-decoration: none;
+}
+
+.banner {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 450px;
+    height: 100vh; /* Set height to full viewport height */
+    background: linear-gradient(to right,#0ef, #c800ff );
+    clip-path: polygon(0 0,100% 0,100% 100%, 60% 100%);
+    padding-right: 70px;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 0;
+}
+
+.wel_text {
+    font-size: 40px;
+    margin-top: -50px;
+    line-height: 50px;
+}
+
+.para {
+    margin-top: 10px;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 1px;
+}

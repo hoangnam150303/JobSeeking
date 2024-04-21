@@ -11,5 +11,7 @@ namespace JobSeeking.Models.ViewModels
         public Category Category { get; set; }
         [ValidateNever]
        public IEnumerable<SelectListItem> Categories {  get; set; }
+        [ValidateNever]
+        public ApplyCV applyCV { get; set; }
     }
 }

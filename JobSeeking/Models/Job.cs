@@ -10,7 +10,7 @@ namespace JobSeeking.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public double Salary {  get; set; }
-        public string CompanyName {  get; set; }
+        public string? CompanyName {  get; set; }
         public string? Logo {  get; set; }
         [BindProperty]
         public string[] Category {  get; set; }

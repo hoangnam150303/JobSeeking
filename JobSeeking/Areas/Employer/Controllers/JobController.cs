@@ -83,20 +83,20 @@ namespace JobSeeking.Areas.Employer.Controllers
                 return NotFound();
             }
 
-            JobSeekingVM jobSeekingVM = new JobSeekingVM
+            JobSeekingVM jobSeekingVM = new JobSeekingVM()
             {
                 Categories = _unitOfWork.CategoryRepository.GetAll().Where(c => c.isValid).Select(c => new SelectListItem()
                 {
                     Text = c.Name,
                     Value = c.Id.ToString(),
-                })
+                }),
+                Job = _unitOfWork.JobRepository.Get(c => c.Id == id)
             };
-
-            if (jobSeekingVM.Job == null)
+            jobSeekingVM.Categories = _unitOfWork.CategoryRepository.GetAll().Where(c => c.isValid).Select(c => new SelectListItem()
             {
-                return NotFound();
-            }
-
+                Text = c.Name,
+                Value = c.Id.ToString(),
+            });
             return View(jobSeekingVM);
         }
 
@@ -106,7 +106,7 @@ namespace JobSeeking.Areas.Employer.Controllers
             if (ModelState.IsValid)
             {
                 _unitOfWork.JobRepository.Update(model.Job);
-                _unitOfWork.Save();
+                _unitOfWork.JobRepository.Save();
                 return RedirectToAction("Index");
             }
             return View(model);

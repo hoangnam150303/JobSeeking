@@ -1,4 +1,5 @@
 ﻿using JobSeeking.Models;
+using JobSeeking.Models.ViewModels;
 using JobSeeking.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -28,34 +29,31 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
 
         public IActionResult Create(int? id)
         {
+            JobSeekingVM jobSeekingVM =  new JobSeekingVM();    
             if (id == null)
             {
                 return NotFound();
             }
 
-            var job = _unitOfWork.JobRepository.Get(c => c.Id == id);
-            if (job == null)
-            {
-                return NotFound();
-            }
+           jobSeekingVM.Job = _unitOfWork.JobRepository.Get(c => c.Id == id);
 
-            var applyCV = new ApplyCV
-            {
-                JobId = job.Id
-            };
 
-            return View(applyCV);
+
+            jobSeekingVM.applyCV.JobId = jobSeekingVM.Job.Id;
+           
+
+            return View(jobSeekingVM);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ApplyCV applyCV, IFormFile file)
+        public async Task<IActionResult> Create(JobSeekingVM model, IFormFile file)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = await _userManager.GetUserAsync(User);
                 if (currentUser != null)
                 {
-                    applyCV.JobSeekerEmail = currentUser.Email;
+                    model.applyCV.JobSeekerEmail = currentUser.Email;
                     if (file != null && file.Length > 0)
                     {
                         string wwwrootPath = _webHostEnvironment.WebRootPath;
@@ -65,16 +63,16 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
                         {
                             await file.CopyToAsync(fileStream);
                         }
-                        applyCV.CV = @"\CV\ApplyCV\" + fileName;
+                        model.applyCV.CV = @"\CV\ApplyCV\" + fileName;
                     }
 
-                    _unitOfWork.ApplyCVRepository.Add(applyCV);
+                    _unitOfWork.ApplyCVRepository.Add(model.applyCV);
                     _unitOfWork.ApplyCVRepository.Save();
 
                     return RedirectToAction("Index", "Home");
                 }
             }
-            return View(applyCV);
+            return View(model.applyCV);
         }
     }
 
