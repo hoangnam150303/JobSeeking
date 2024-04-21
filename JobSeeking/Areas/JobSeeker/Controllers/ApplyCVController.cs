@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace JobSeeking.Areas.JobSeeker.Controllers
 {
     [Area("JobSeeker")]
-    [Authorize(Roles = "Job Seeker")]
+    [Authorize(Roles = "JobSeeker")]
     public class ApplyCVController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

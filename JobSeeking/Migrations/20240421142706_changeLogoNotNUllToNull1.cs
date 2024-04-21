@@ -5,7 +5,7 @@
 namespace JobSeeking.Migrations
 {
     /// <inheritdoc />
-    public partial class changenotnull : Migration
+    public partial class changeLogoNotNUllToNull1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

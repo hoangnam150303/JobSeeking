@@ -1,2 +1,22 @@
 ﻿@model List<News>
 <h1>List of News</h1>
+<a asp-action="Create" class="btn btn-primary">Create</a>
+<div class="card-container">
+    @foreach (var newsItem in Model)
+    {
+        <div class="card">
+            @if (!string.IsNullOrEmpty(newsItem.image))
+            {
+                <img src="@newsItem.image" alt="News Image">
+            }
+            <div class="card-body">
+                <h2>@newsItem.Name</h2>
+                <p>@newsItem.Description</p>
+                <p>@newsItem.DateCreated.ToString("MMMM dd, yyyy")</p>
+            </div>
+            <a asp-area="Admin" asp-controller="News" asp-action="Edit" asp-route-Id="@newsItem.Id" class="btn btn-primary">Edit</a>
+            <a asp-area="Admin" asp-controller="News" asp-action="Delete" asp-route-Id="@newsItem.Id" class="btn btn-danger"
+               onclick="return confirm('Are you want to delete user:@newsItem.Name')">Delete</a>
+        </div>
+    }
+</div>

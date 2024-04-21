@@ -105,9 +105,8 @@ namespace JobSeeking.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
             public string Name {  get; set; }
-            public string? City {  get; set; }
-            public string? Address {  get; set; }
-            public string? Company {  get; set; }
+            public string City {  get; set; }
+            public string Address {  get; set; }
             public bool isValid {  get; set; }
             public string? Avatar {  get; set; }
         }
@@ -116,9 +115,9 @@ namespace JobSeeking.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            if (!_roleManager.RoleExistsAsync("Job Seeker").GetAwaiter().GetResult()) 
+            if (!_roleManager.RoleExistsAsync("JobSeeker").GetAwaiter().GetResult()) 
             {
-                _roleManager.CreateAsync(new IdentityRole("Job Seeker")).GetAwaiter().GetResult();            
+                _roleManager.CreateAsync(new IdentityRole("JobSeeker")).GetAwaiter().GetResult();            
                             
             }
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -131,7 +130,7 @@ namespace JobSeeking.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-                _userManager.AddToRoleAsync(user, "Job Seeker").GetAwaiter().GetResult();
+                _userManager.AddToRoleAsync(user, "JobSeeker").GetAwaiter().GetResult();
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.Name = Input.Name;

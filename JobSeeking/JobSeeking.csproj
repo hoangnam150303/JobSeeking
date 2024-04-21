@@ -28,6 +28,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="wwwroot\CV\ApplyCV\" />
     <Folder Include="wwwroot\images\Avatars\" />
+    <Folder Include="wwwroot\images\ImagesOfNews\" />
   </ItemGroup>
 
 </Project>

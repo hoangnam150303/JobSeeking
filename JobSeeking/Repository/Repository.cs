@@ -44,6 +44,7 @@ namespace JobSeeking.Repository
         }
         public void Save()
         {
+           
             _db.SaveChanges();
         }
     }

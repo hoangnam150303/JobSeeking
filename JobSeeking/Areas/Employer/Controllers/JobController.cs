@@ -101,15 +101,19 @@ namespace JobSeeking.Areas.Employer.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(JobSeekingVM model)
+        public async Task<IActionResult> EditAsync(JobSeekingVM jobSeeking)
         {
+           
             if (ModelState.IsValid)
             {
-                _unitOfWork.JobRepository.Update(model.Job);
+                var currentUser = await _userManager.GetUserAsync(User);
+                jobSeeking.Job.CompanyName = currentUser.Company;
+                jobSeeking.Job.EmployerId = currentUser.Id;
+                _unitOfWork.JobRepository.Update(jobSeeking.Job);
                 _unitOfWork.JobRepository.Save();
                 return RedirectToAction("Index");
             }
-            return View(model);
+            return View(jobSeeking);
         }
         public IActionResult Delete(int? id)
         {

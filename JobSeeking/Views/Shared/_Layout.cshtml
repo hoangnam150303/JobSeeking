@@ -37,25 +37,28 @@
                         @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="Admin" asp-controller="Account" asp-action="Index">View User</a>
+                                <a class="nav-link " asp-area="Admin" asp-controller="Account" asp-action="Index">View User</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white " asp-area="Admin" asp-controller="ResponeCategory" asp-action="Index">Request Category</a>
+                                <a class="nav-link  " asp-area="Admin" asp-controller="ResponeCategory" asp-action="Index">Request Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link  " asp-area="Admin" asp-controller="News" asp-action="Index">News</a>
                             </li>
                         }
                         @if (User.Identity.IsAuthenticated && (User.IsInRole("Employer")))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="Employer" asp-controller="Category" asp-action="Index">Category</a>
+                                <a class="nav-link " asp-area="Employer" asp-controller="Category" asp-action="Index">Category</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="Employer" asp-controller="Job" asp-action="Index">Your Job</a>
+                                <a class="nav-link " asp-area="Employer" asp-controller="Job" asp-action="Index">Your Job</a>
                             </li>
                         }
                         @if (User.Identity.IsAuthenticated && (User.IsInRole("JobSeeker")))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Create">Your Job</a>
+                                <a class="nav-link " asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Create">Job</a>
                             </li>
                         }
                     </ul>
