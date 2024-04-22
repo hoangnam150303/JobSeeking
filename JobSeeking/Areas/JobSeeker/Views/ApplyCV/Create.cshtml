@@ -1,18 +1,132 @@
 ﻿@using JobSeeking.Models.ViewModels
+
 @model JobSeekingVM
 
 <h1>Apply for Job</h1>
 <form method="post" enctype="multipart/form-data">
+    <input hidden asp-for="applyCV.JobId" />
     <div class="form-group">
-        <h5>@Model.Job.Name</h5>
         <label asp-for="applyCV.Description" class="control-label"></label>
         <textarea asp-for="applyCV.Description" class="form-control"></textarea>
         <span asp-validation-for="applyCV.Description" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="applyCV.Description">CV (PDF only):</label>
+        <label asp-for="applyCV.CV">CV (PDF only):</label>
         <input type="file" name="file" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary">Apply</button>
-    <a asp-area="JobSeeker" asp-controller="Home" asp-action="Index" class="btn btn-primary">Back to list</a>
+    <div class="button-section">
+        <button type="submit">
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"></path></svg> Create
+            </span>
+        </button>
+        <button class="button" asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Index">
+            <div class="button-box">
+                <span class="button-elem">
+                    <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
+                    </svg>
+                </span>
+                <span class="button-elem">
+                    <svg viewBox="0 0 46 40">
+                        <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
+                    </svg>
+                </span>
+            </div>
+        </button>
+    </div>
 </form>
+<style>
+    .button-section{
+       display:flex;
+       align-items:center
+    }
+    .button {
+        display: block;
+        position: relative;
+        width: 56px;
+        height: 56px;
+        margin: 0;
+        overflow: hidden;
+        outline: none;
+        background-color: transparent;
+        cursor: pointer;
+        border: 0;
+    }
+        .button:before,
+        .button:after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            inset: 7px;
+        }
+
+        .button:before {
+            border: 4px solid #f0eeef;
+            transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms, transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+        }
+
+        .button:after {
+            border: 4px solid #96daf0;
+            transform: scale(1.3);
+            transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
+        }
+
+        .button:hover:before,
+        .button:focus:before {
+            opacity: 0;
+            transform: scale(0.7);
+            transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .button:hover:after,
+        .button:focus:after {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms, transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+        }
+
+    .button-box {
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .button-elem {
+        display: block;
+        width: 20px;
+        height: 20px;
+        margin: 17px 18px 0 18px;
+        transform: rotate(180deg);
+        fill: #f0eeef;
+    }
+
+    .button:hover .button-box,
+    .button:focus .button-box {
+        transition: 0.4s;
+        transform: translateX(-56px);
+    }
+
+    button {
+        border: 2px solid #24b4fb;
+        background-color: #24b4fb;
+        border-radius: 0.9em;
+        padding: 0.8em 1.2em 0.8em 1em;
+        transition: all ease-in-out 0.2s;
+        font-size: 16px;
+    }
+
+        button span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: #0071e2;
+        }
+</style>

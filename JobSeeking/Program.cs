@@ -6,6 +6,8 @@ using JobSeeking.Repository;
 using JobSeeking.Ultility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using JobSeeking.Models;
+using JobSeeking.Models.ViewModels;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +16,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer
 (builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddRazorPages();
-
 builder.Services.AddIdentity <ApplicationUser,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-builder.Services.AddScoped<IEmailSender,EmailSender>();
-builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
-builder.Services.AddScoped<Category>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.ConfigureApplicationCookie(option =>
 {
     option.AccessDeniedPath = $"/Identity/Account/AccessDenied";

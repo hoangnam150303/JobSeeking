@@ -1,0 +1,24 @@
+﻿@using JobSeeking.Models.ViewModels
+@model JobSeekingVM
+
+<h1>Edit Category</h1>
+<form asp-action="Edit" method="post">
+    <input hidden asp-for="Job.Id" />
+    <div class="form-group">
+        <label asp-for="Job.Name" class="control-label"></label>
+        <input disabled asp-for="Job.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.Description" class="control-label"></label>
+        <textarea disabled asp-for="Job.Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.Salary" class="control-label"></label>
+        <input disabled asp-for="Job.Salary" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Job.Category" class="col-sm-4 col-form-label">Category</label>
+        <select disabled asp-for="Job.Category" class="form-select" asp-items="@Model.Categories" multiple></select>
+    </div>
+    <a asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Create" asp-route-Id="@Model.Job.Id">ApplyCV</a>
+</form>

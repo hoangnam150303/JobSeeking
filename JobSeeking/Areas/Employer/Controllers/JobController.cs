@@ -28,7 +28,6 @@ namespace JobSeeking.Areas.Employer.Controllers
             foreach (var job in jobs)
             {
                 var categories = new List<string>();
-
                 foreach (var categoryIdString in job.Category)
                 {
                     int categoryId = int.Parse(categoryIdString);
@@ -40,16 +39,15 @@ namespace JobSeeking.Areas.Employer.Controllers
                 }
                 job.Category = categories.ToArray();
             }
-
             return View(jobs);
         }
         public IActionResult Create()
         {
             JobSeekingVM jobSeekingVM = new JobSeekingVM
             {
-                Categories = _unitOfWork.CategoryRepository.GetAll().Where(c => c.isValid).Select(c => new SelectListItem() 
-               {
-                    Text = c.Name, 
+                Categories = _unitOfWork.CategoryRepository.GetAll().Where(c => c.isValid).Select(c => new SelectListItem()
+                {
+                    Text = c.Name,
                     Value = c.Id.ToString(),
                 })
             };
@@ -101,9 +99,9 @@ namespace JobSeeking.Areas.Employer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditAsync(JobSeekingVM jobSeeking)
+        public async Task<IActionResult> Edit(JobSeekingVM jobSeeking)
         {
-           
+
             if (ModelState.IsValid)
             {
                 var currentUser = await _userManager.GetUserAsync(User);
@@ -121,8 +119,8 @@ namespace JobSeeking.Areas.Employer.Controllers
             {
                 return NotFound();
             }
-            Job? job = _unitOfWork.JobRepository.Get(c=>c.Id == id);
-            if (job==null)
+            Job? job = _unitOfWork.JobRepository.Get(c => c.Id == id);
+            if (job == null)
             {
                 return NotFound();
             }
@@ -132,8 +130,18 @@ namespace JobSeeking.Areas.Employer.Controllers
                 _unitOfWork.JobRepository.Save();
                 return RedirectToAction("Index");
             }
-            
         }
+        public IActionResult ViewAllCV(int? id)
+        {
+            if (id == null||id==0)
+            {
+                return NotFound();
+            }
+            var applyCVs = _unitOfWork.ApplyCVRepository.Get(c=>c.JobId == id);
+            
+            return View(applyCVs);
+        }
+
     }
 }
 

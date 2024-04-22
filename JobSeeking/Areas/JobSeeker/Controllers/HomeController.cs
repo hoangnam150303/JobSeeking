@@ -1,17 +1,19 @@
 ﻿using JobSeeking.Models;
 using JobSeeking.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace JobSeeking.Areas.JobSeeker.Controllers
 {
     [Area("JobSeeker")]
+    [Authorize(Roles = "JobSeeker")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger,IUnitOfWork unitOfWork)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;

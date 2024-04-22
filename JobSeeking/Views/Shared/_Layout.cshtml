@@ -11,9 +11,19 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="page-loading">
-        <img src="~/images/scr_01.gif" />
-    </div>
+    <section class="loader">
+
+        <div class="slider" style="--i:0">
+        </div>
+        <div class="slider" style="--i:1">
+        </div>
+        <div class="slider" style="--i:2">
+        </div>
+        <div class="slider" style="--i:3">
+        </div>
+        <div class="slider" style="--i:4">
+        </div>
+    </section>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -25,7 +35,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" asp-area="JobSeeker" asp-controller="Home" asp-action="Index">
+                            <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">
                                 Home
                                 <span class="visually-hidden">(current)</span>
                             </a>
@@ -58,7 +68,7 @@
                         @if (User.Identity.IsAuthenticated && (User.IsInRole("JobSeeker")))
                         {
                             <li class="nav-item">
-                                <a class="nav-link " asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Create">Job</a>
+                                <a class="nav-link " asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Index">Job</a>
                             </li>
                         }
                     </ul>
@@ -89,53 +99,16 @@
     @await RenderSectionAsync("Scripts", required: false)
     <script>
         $(document).ready(function () {
-            // Hide loading indicator initially
-            $('.page-loading').hide();
+            $('.loader').hide();
 
-            // Show loading indicator when navigating between pages
             $(document).on('click', 'a', function () {
-                $('.page-loading').show();
+                $('.loader').show();
             });
-
-            // Hide loading indicator when the page is fully loaded
             $(window).on('load', function () {
-                $('.page-loading').hide();
+                $('.loader').hide();
             });
         });
     </script>
 </body>
-<style>
-    .page-loading {
-        background-color: #ffffff;
-        content: "";
-        height: 100%;
-        left: 0;
-        position: fixed;
-        text-align: center;
-        top: 0;
-        width: 100%;
-        z-index: 2147483647;
-    }
 
-        .page-loading > img {
-            left: 50%;
-            position: absolute;
-            top: 50%;
-            -webkit-transform: translateX(-50%) translateY(-50%);
-            -moz-transform: translateX(-50%) translateY(-50%);
-            -ms-transform: translateX(-50%) translateY(-50%);
-            -o-transform: translateX(-50%) translateY(-50%);
-            transform: translateX(-50%) translateY(-50%);
-        }
-
-        .page-loading > span {
-            color: #b3b3b3;
-            cursor: pointer;
-            display: inline-block;
-            font-size: 17px;
-            letter-spacing: 0;
-            margin-top: 30px;
-            text-decoration: underline;
-        }
-</style>
 </html>

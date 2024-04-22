@@ -1,0 +1,26 @@
+﻿@using JobSeeking.Models.ViewModels
+@model List<ApplyCV>
+<h1>List CV you were applied</h1>
+<div class="row">
+    @foreach (var obj in Model)
+    {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                       @if (obj.JobId == obj.Job.Id)
+                    {
+                        <h5>Name: @obj.Job.Name</h5>
+                    }
+                    </div>
+                        <div class="card-body">
+                        <h5>
+                            Time Create: @obj.TimeCreate
+                        </h5>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-action="Delete" asp-route-Id="@obj.Id" class="btn btn-danger"> Delete</a>
+                    </div>
+                </div>
+            </div>
+    }
+</div>
