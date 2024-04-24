@@ -14,7 +14,7 @@ namespace JobSeeking.Models
         public string Description { get; set; }
         [Required]
         public double Salary {  get; set; }
-
+        [ValidateNever]
         public string? CompanyName {  get; set; }
         public string? Logo {  get; set; }
         [Required]
@@ -26,5 +26,7 @@ namespace JobSeeking.Models
         [ForeignKey("EmployerId")]
         [ValidateNever]
         public ApplicationUser User { get; set; }
+        [ValidateNever]
+        public int amountOfCV {  get; set; }
     }
 }

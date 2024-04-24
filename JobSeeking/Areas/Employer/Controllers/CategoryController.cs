@@ -46,5 +46,24 @@ namespace JobSeeking.Areas.Employer.Controllers
             }
             return View(category);
         }
+        public async Task<IActionResult> ToggleNotification(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Category? category = _unitOfWork.CategoryRepository.Get(c => c.Id == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            category.categoryValid = !category.categoryValid;
+            _unitOfWork.Save();
+/*
+            TempData["Success"] = "Notification status delete successfully!";*/
+            return RedirectToAction("Index");
+        }
+
     }
 }

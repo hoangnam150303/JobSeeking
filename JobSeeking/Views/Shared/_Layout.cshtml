@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -64,17 +65,24 @@
                             <li class="nav-item">
                                 <a class="nav-link " asp-area="Employer" asp-controller="Job" asp-action="Index">Your Job</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="Employer" asp-controller="ManageAccount" asp-action="Index">Profile</a>
+                            </li>
                         }
                         @if (User.Identity.IsAuthenticated && (User.IsInRole("JobSeeker")))
                         {
                             <li class="nav-item">
                                 <a class="nav-link " asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Index">Job</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="Employer" asp-controller="ManageAccount" asp-action="Index">Profile</a>
+                            </li>
                         }
+
                     </ul>
                 </div>
-                </div>
-                <partial name="_LoginPartial" />
+            </div>
+            <partial name="_LoginPartial" />
             </div>
         </nav>
     </header>
@@ -85,7 +93,6 @@
     </div>
 
     <footer class="border-top footer text-muted">
-       
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

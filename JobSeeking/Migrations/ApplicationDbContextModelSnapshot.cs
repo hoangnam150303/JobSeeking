@@ -45,6 +45,9 @@ namespace JobSeeking.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("Status")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("TimeCreate")
                         .HasColumnType("datetime2");
 
@@ -73,6 +76,9 @@ namespace JobSeeking.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("categoryValid")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("isValid")
                         .HasColumnType("bit");
@@ -116,6 +122,9 @@ namespace JobSeeking.Migrations
 
                     b.Property<double>("Salary")
                         .HasColumnType("float");
+
+                    b.Property<int>("amountOfCV")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

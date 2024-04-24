@@ -64,6 +64,5 @@ namespace JobSeeking.Areas.Admin.Controllers
             }
         }
 
-        
     }
 }

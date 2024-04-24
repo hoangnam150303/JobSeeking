@@ -17,5 +17,7 @@ namespace JobSeeking.Models
         public string Description {  get; set; }
         [ValidateNever]
         public string CV {  get; set; }
+        [ValidateNever]
+        public bool? Status {  get; set; }
     }
 }

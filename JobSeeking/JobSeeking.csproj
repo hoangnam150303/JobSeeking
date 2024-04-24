@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="wwwroot\CV\" />
+    <Folder Include="wwwroot\CV\CVsOfJob\" />
     <Folder Include="wwwroot\images\CV\" />
     <Folder Include="wwwroot\images\HomeIndex\" />
   </ItemGroup>

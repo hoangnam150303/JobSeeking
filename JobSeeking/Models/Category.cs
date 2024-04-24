@@ -17,6 +17,6 @@ namespace JobSeeking.Models
         public ApplicationUser User { get; set; }
         public DateTime CreateDay { get; set; } = DateTime.Now;
 
-        
+        public bool categoryValid { get; set; }
     }
 }

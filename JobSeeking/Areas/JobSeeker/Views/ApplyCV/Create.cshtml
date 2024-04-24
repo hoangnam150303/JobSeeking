@@ -1,18 +1,18 @@
 ﻿@using JobSeeking.Models.ViewModels
 
 @model JobSeekingVM
-
 <h1>Apply for Job</h1>
 <form method="post" enctype="multipart/form-data">
     <input hidden asp-for="applyCV.JobId" />
     <div class="form-group">
-        <label asp-for="applyCV.Description" class="control-label"></label>
+        <label asp-for="applyCV.Description" class="control-label">Description:</label>
         <textarea asp-for="applyCV.Description" class="form-control"></textarea>
         <span asp-validation-for="applyCV.Description" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="applyCV.CV">CV (PDF only):</label>
         <input type="file" name="file" class="form-control" />
+        <span asp-validation-for="applyCV.CV" class="text-danger"></span>
     </div>
     <div class="button-section">
         <button type="submit">

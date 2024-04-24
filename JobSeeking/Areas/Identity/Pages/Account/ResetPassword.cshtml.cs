@@ -20,12 +20,10 @@ namespace JobSeeking.Areas.Identity.Pages.Account
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly EmailSender _emailSender;
 
-        public ResetPasswordModel(UserManager<ApplicationUser> userManager,EmailSender emailSender)
+        public ResetPasswordModel(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
         }
 
         /// <summary>
@@ -102,26 +100,21 @@ namespace JobSeeking.Areas.Identity.Pages.Account
             var user = await _userManager.FindByEmailAsync(Input.Email);
             if (user == null)
             {
-                // Redirect to a page indicating that the email was sent, but don't leak information about whether the user exists
+                // Don't reveal that the user does not exist
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 
-            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToPage("./ResetPasswordConfirmation");
+            }
 
-            var callbackUrl = Url.Page(
-                "/Account/ResetPassword",
-                pageHandler: null,
-                values: new { code },
-                protocol: Request.Scheme);
-
-            await _emailSender.SendEmailAsync(
-                Input.Email,
-                "Reset your password",
-                $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-            // Redirect to a page indicating that the email was sent
-            return RedirectToPage("./ResetPasswordConfirmation");
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return Page();
         }
     }
 

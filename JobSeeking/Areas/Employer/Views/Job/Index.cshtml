@@ -20,6 +20,7 @@
                         <p><strong>Salary:</strong> @job.Salary</p>
                         <p><strong>Company Name:</strong> @job.CompanyName</p>
                         <p><strong>Email:</strong> @job.User.Email</p>
+                        <p><strong>Amount of CV:</strong> @job.amountOfCV</p>
                             <img src="@job.Logo" class="card-img-top" alt="Company Logo">
                     <strong>Categories:</strong>
                     @foreach (var categoryName in job.Category)
@@ -31,6 +32,7 @@
                        <a asp-area="Employer" asp-controller="Job" asp-action="Edit" asp-route-Id="@job.Id" class="btn btn-primary">Edit</a>
                        <a asp-area="Employer" asp-controller="Job" asp-action="Delete" asp-route-Id="@job.Id" class="btn btn-primary"
                        onclick="return confirm('Are you want to delete user:@job.Name')">Delete</a>
+                       <a asp-area="Employer" asp-controller="Job" asp-action="ViewAllCV" asp-route-Id="@job.Id" class="btn btn-primary">View CV</a>
                     </div>
                 </div>
             </div>

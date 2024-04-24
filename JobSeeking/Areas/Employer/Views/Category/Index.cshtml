@@ -2,6 +2,9 @@
 @using JobSeeking.Models
 <h1>All Categories</h1>
 <a asp-action="Create" class="btn btn-primary">Create Category</a>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Notification
+</button>
 <div class="row">
         @foreach (var obj in Model)
         {
@@ -15,7 +18,7 @@
                     <div class="card-body">
                     <h5>
                         Valid:@obj.isValid
-                    </h5>
+                   @*  </h5>
                         @if (obj.isValid)
                         {
                             <div id="notification-@obj.Id" class="alert alert-success" role="alert">
@@ -23,7 +26,7 @@
                                 <button class="btn btn-primary" onclick="confirmSeen('@obj.Id')">Confirm Seen</button>
                             </div>
                         }
-                    <h5>
+                    <h5> *@
                         Time Create: @obj.CreateDay
                     </h5>
                     </div>
@@ -34,6 +37,42 @@
         }
     }
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @foreach (var category in Model.Where(c => c.isValid))
+                {
+                    @if (category.isValid && !category.categoryValid)
+                    {
+                        <div>
+                            @if (!category.categoryValid)
+                            {
+                                <div class="notification-status">
+                                    <form asp-controller="Category" asp-action="ToggleNotification" method="post">
+                                        Category <strong>@category.Name</strong> has been confirmed.
+                                        <input type="hidden" name="id" value="@category.Id" />
+                                        <button type="submit" class="btn-close"></button>
+                                    </form>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function confirmSeen(categoryId) {
         document.getElementById('notification-' + categoryId).style.display = 'none';

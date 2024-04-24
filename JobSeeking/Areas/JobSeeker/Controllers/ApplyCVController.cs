@@ -51,13 +51,20 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
             }
 
             var job = _unitOfWork.JobRepository.Get(c => c.Id == id);
+           
             if (job == null)
             {
                 return NotFound();
             }
+            job.amountOfCV += 1;
+            _unitOfWork.JobRepository.Update(job);
+            _unitOfWork.JobRepository.Save();
             var jobSeekingVM = new JobSeekingVM();
+            
+
             jobSeekingVM.applyCV = new ApplyCV();
             jobSeekingVM.applyCV.JobId = job.Id;
+            
             return View(jobSeekingVM);
         }
 
@@ -66,33 +73,44 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 var currentUser = await _userManager.GetUserAsync(User);
                 if (currentUser != null)
                 {
                     jobSeekingVM.applyCV.JobSeekerEmail = currentUser.Email;
-
                     if (file != null && file.Length > 0)
                     {
+                        // Check file extension
+                        if (!file.FileName.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ViewData["PdfValidationMessage"] = "Please upload a PDF file.";
+                            return View(jobSeekingVM.applyCV);
+                        }
+                        // Check file size (max 5 MB)
+                        if (file.Length > 5 * 1024 * 1024)
+                        {
+                            ModelState.AddModelError("File", "File size cannot exceed 5 MB.");
+                            return View(jobSeekingVM.applyCV);
+                        }
                         string wwwrootPath = _webHostEnvironment.WebRootPath;
                         string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                        string cvPath = Path.Combine(wwwrootPath, @"images\CV");
+                        string cvPath = Path.Combine(wwwrootPath, @"CV\CVsOfJob");
 
+                        // Save the file
                         using (var fileStream = new FileStream(Path.Combine(cvPath, fileName), FileMode.Create))
                         {
                             await file.CopyToAsync(fileStream);
                         }
-
-                        jobSeekingVM.applyCV.CV = @"\images\CV\" + fileName;
+                        jobSeekingVM.applyCV.CV = @"\CV\CVsOfJob\" + fileName;
                     }
-                    _unitOfWork.ApplyCVRepository.Add(jobSeekingVM.applyCV);
-                    _unitOfWork.ApplyCVRepository.Save();
+                        
+                        _unitOfWork.ApplyCVRepository.Add(jobSeekingVM.applyCV);
+                        _unitOfWork.ApplyCVRepository.Save();
                     return RedirectToAction("Index");
                 }
             }
-
-            return View(jobSeekingVM.applyCV);
+                return View(jobSeekingVM.applyCV);
         }
-
         public async Task<IActionResult> ListCV()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -141,6 +159,7 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
                 return RedirectToAction("Index");
             }
         }
+        
     }
 
 }

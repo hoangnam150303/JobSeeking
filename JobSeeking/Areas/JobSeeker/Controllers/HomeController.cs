@@ -7,7 +7,8 @@ using System.Diagnostics;
 namespace JobSeeking.Areas.JobSeeker.Controllers
 {
     [Area("JobSeeker")]
-    [Authorize(Roles = "JobSeeker")]
+    [Authorize(Roles = "Admin,JobSeeker,Employer")]
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
