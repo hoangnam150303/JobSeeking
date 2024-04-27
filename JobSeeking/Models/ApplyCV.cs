@@ -12,7 +12,7 @@ namespace JobSeeking.Models
         [ValidateNever]
         public Job Job { get; set; }
         [ValidateNever]
-        public string JobSeekerEmail {  get; set; }
+        public string JobSeekerEmail { get; set; }
         public DateTime TimeCreate { get; set; }= DateTime.Now;
         public string Description {  get; set; }
         [ValidateNever]

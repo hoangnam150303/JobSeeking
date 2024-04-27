@@ -22,10 +22,19 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
 
         public IActionResult Index()
         {
-            List<Job> jobList = _unitOfWork.JobRepository.GetAll().ToList();
-            return View(jobList);
+            List<News> news = _unitOfWork.NewsRepository.GetAll().ToList(); 
+            return View(news);
         }
 
+        public IActionResult ShowNews(int? id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+            var news = _unitOfWork.NewsRepository.Get(c=>c.Id==id);
+            return View(news);
+        }
         public IActionResult Privacy()
         {
             return View();
@@ -35,6 +44,10 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult AboutUs()
+        {
+            return View();
         }
     }
 

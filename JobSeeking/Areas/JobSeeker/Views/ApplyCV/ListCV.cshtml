@@ -1,26 +1,59 @@
 ﻿@using JobSeeking.Models.ViewModels
 @model List<ApplyCV>
 <h1>List CV you were applied</h1>
+<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <i class="bi bi-bell"></i>
+</button>
 <div class="row">
     @foreach (var obj in Model)
     {
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card">
                     <div class="card-header">
-                       @if (obj.JobId == obj.Job.Id)
-                    {
                         <h5>Name: @obj.Job.Name</h5>
-                    }
                     </div>
                         <div class="card-body">
                         <h5>
+                            @if (obj.Status==true)
+                        {
+                            <h5>Status: Accepted</h5>
+                        }
+                        @if (obj.Status == false)
+                        {
+                            <h5>Status: Failed</h5>
+                        }
                             Time Create: @obj.TimeCreate
                         </h5>
                     </div>
                     <div class="card-footer">
                         <a asp-action="Delete" asp-route-Id="@obj.Id" class="btn btn-danger"> Delete</a>
+                        <a asp-action="Index" class="btn btn-primary"> Back to list</a>
                     </div>
                 </div>
             </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @if (obj.Status==true)
+                        {
+                            <p><strong>You was accepted CV in Job @obj.Job.Name</strong></p>
+                        }
+                        @if (obj.Status==false)
+                        {
+                            <p><strong>You was failed CV in Job @obj.Job.Name</strong></p>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 </div>

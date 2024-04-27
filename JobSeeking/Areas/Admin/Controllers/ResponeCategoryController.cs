@@ -14,19 +14,20 @@ namespace JobSeeking.Areas.Admin.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+        //Index category
         public IActionResult Index()
         {
             var categories = _unitOfWork.CategoryRepository.GetAllWithUser(c => c.isValid == false).ToList();
             return View(categories);
         }
-      
-        public IActionResult Accept( int id)
+      //Method accept category
+        public IActionResult Accept( int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            Category category = _unitOfWork.CategoryRepository.Get(c => c.Id == id);
+            Category? category = _unitOfWork.CategoryRepository.Get(c => c.Id == id);
             if (category == null)
             {
                 return NotFound();
@@ -40,6 +41,52 @@ namespace JobSeeking.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(category);
+        }
+        //Method httpGet edit
+        public IActionResult Edit(int? id)
+        {
+            if (id==null || id == 0)
+            {
+                return NotFound();
+            }
+            Category category = _unitOfWork.CategoryRepository.Get(c=>c.Id == id); 
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+        //Method httppost edit
+        [HttpPost]
+        public IActionResult Edit(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.CategoryRepository.Update(category);
+                _unitOfWork.CategoryRepository.Save();
+                return RedirectToAction("Index");
+            }
+            return View(category);
+        }
+        //Delete Category
+        public IActionResult Delete(int? id)
+        {
+            if(id==null || id == 0)
+            {
+                return NotFound() ; 
+            }
+            Category? category = _unitOfWork.CategoryRepository.Get(c=>c.Id==id);   
+            if (category == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _unitOfWork.CategoryRepository.Delete(category);
+                _unitOfWork.CategoryRepository.Save();
+                return RedirectToAction("Index");
+            }
+            
         }
     }
 }

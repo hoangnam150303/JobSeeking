@@ -60,8 +60,6 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
             _unitOfWork.JobRepository.Update(job);
             _unitOfWork.JobRepository.Save();
             var jobSeekingVM = new JobSeekingVM();
-            
-
             jobSeekingVM.applyCV = new ApplyCV();
             jobSeekingVM.applyCV.JobId = job.Id;
             
@@ -123,7 +121,6 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
             {
                 return NotFound();
             }
-
             JobSeekingVM jobSeekingVM = new JobSeekingVM()
             {
                 Categories = _unitOfWork.CategoryRepository.GetAll().Where(c => c.isValid).Select(c => new SelectListItem()

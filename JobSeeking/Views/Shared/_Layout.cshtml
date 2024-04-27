@@ -41,41 +41,32 @@
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="JobSeeker" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
                         </li>
                         @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin")))
                         {
                             <li class="nav-item">
-                                <a class="nav-link " asp-area="Admin" asp-controller="Account" asp-action="Index">View User</a>
+                                <a class="nav-link active " asp-area="Admin" asp-controller="Account" asp-action="Index">View User</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link  " asp-area="Admin" asp-controller="ResponeCategory" asp-action="Index">Request Category</a>
+                                <a class="nav-link active " asp-area="Admin" asp-controller="ResponeCategory" asp-action="Index">Request Category</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link  " asp-area="Admin" asp-controller="News" asp-action="Index">News</a>
+                                <a class="nav-link active " asp-area="Admin" asp-controller="News" asp-action="Index">News</a>
                             </li>
                         }
                         @if (User.Identity.IsAuthenticated && (User.IsInRole("Employer")))
                         {
                             <li class="nav-item">
-                                <a class="nav-link " asp-area="Employer" asp-controller="Category" asp-action="Index">Category</a>
+                                <a class="nav-link active " asp-area="Employer" asp-controller="Category" asp-action="Index">Category</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " asp-area="Employer" asp-controller="Job" asp-action="Index">Your Job</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " asp-area="Employer" asp-controller="ManageAccount" asp-action="Index">Profile</a>
+                                <a class="nav-link active " asp-area="Employer" asp-controller="Job" asp-action="Index">Your Job</a>
                             </li>
                         }
                         @if (User.Identity.IsAuthenticated && (User.IsInRole("JobSeeker")))
                         {
                             <li class="nav-item">
-                                <a class="nav-link " asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Index">Job</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " asp-area="Employer" asp-controller="ManageAccount" asp-action="Index">Profile</a>
+                                <a class="nav-link active" asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Index">Job</a>
                             </li>
                         }
 
@@ -91,9 +82,6 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

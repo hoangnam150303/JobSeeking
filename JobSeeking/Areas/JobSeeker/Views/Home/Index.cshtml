@@ -1,7 +1,19 @@
-﻿<!DOCTYPE html>
+﻿@model List<News>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="stylesheet" href="~/css/IndexHome.css" asp-append-version="true" />
+    <style>
+        body {
+            height: 200px;
+            background-color: #E1D5E7; /* Light pastel purple */
+            background-image: linear-gradient(to right, #E1D5E7, #F8BBD0, #BBDEFB); /* Pastel purple to pastel pink to pastel blue */
+        }
+        a{
+            text-decoration:none;
+            color:black;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -9,7 +21,7 @@
             <img class="background" src="~/images/homeindex/istockphoto-1400739452-612x612.jpg"/>
             <div class="card-content">
                 <svg>...</svg>
-                <h5 class="title">About Us</h5>
+                <h5 class="title"><a asp-action="AboutUs">About Us </a></h5>
             </div>
             <div class="backdrop"> </div>
         </div>
@@ -21,6 +33,36 @@
             </div>
             <div class="backdrop"> </div>
         </div>
+        <div class="card">
+            <img class="background" src="~/images/homeindex/privacy-policy.jpg" />
+            <div class="card-content">
+                <svg>...</svg>
+                <h5 class="title">Contact Us</h5>
+            </div>
+            <div class="backdrop"> </div>
+        </div>
     </div>
 </body>
 </html>
+<br />
+<br />
+<div class="title">
+    <h5><strong>News</strong></h5>
+</div>
+<br />
+<br />
+@foreach (var newsItem in Model)
+    {
+        <div class="card-news">
+        <a class="card1" asp-action="ShowNews" asp-route-Id="@newsItem.Id">
+                <p>@newsItem.Name</p>
+                <p class="small">@newsItem.Description</p>
+                <div class="go-corner">
+                    <div class="go-arrow">
+                    →
+                    </div>
+                </div>
+            </a>
+        </div>
+    }
+

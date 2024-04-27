@@ -1,0 +1,63 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model ApplicationUser
+@inject UserManager<ApplicationUser> UserManager
+<style>
+    body {
+        height: 200px;
+        background-color: #E1D5E7; /* Light pastel purple */
+        background-image: linear-gradient(to right, #E1D5E7, #F8BBD0, #BBDEFB); /* Pastel purple to pastel pink to pastel blue */
+    }
+</style>
+<br />
+<br />
+<div class="row">
+    @{
+        var userRoles = await UserManager.GetRolesAsync(@Model);
+    }
+    @if (userRoles.Contains("Employer") || userRoles.Contains("JobSeeker"))
+    {
+    <div class="col-lg-4 col-md-6 mb-4">
+            <form>
+                <div class="form-group">
+                    <img src="@Model.Avatar" width="100" height="80" class="rounded-end" />
+                </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="text" class="form-control" value="@Model.Email" readonly>
+            </div>
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" class="form-control" value="@Model.Name" readonly>
+            </div>
+            @if (!string.IsNullOrEmpty(@Model.Company))
+            {
+                <div class="form-group">
+                    <label>Company:</label>
+                    <input type="text" class="form-control" value="@Model.Company" readonly>
+                </div>
+            }
+
+            @if (userRoles.Contains("Employer"))
+            {
+                <p class="text-success">Employer</p>
+            }
+            else if (userRoles.Contains("JobSeeker"))
+            {
+                <p class="text-primary">Job Seeker</p>
+            }
+            @if (@Model.isValid)
+            {
+                <p class="text-success">Valid</p>
+            }
+            else
+            {
+                <p class="text-danger">Invalid</p>
+            }
+            <div class="form-group">
+                    <a asp-action="Delete" asp-route-Id="@Model.Id" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete user:@Model.Email')"><i class="bi bi-trash3"></i> </a>
+                    <a asp-action="LockAccount" asp-route-Id="@Model.Id" class="btn btn-warning" onclick="return confirm('Are you sure you want to Lock & Unlock user:@Model.Email')"><i class="bi bi-lock"></i> </a>
+            </div>
+        </form>
+    </div>
+    }
+</div>

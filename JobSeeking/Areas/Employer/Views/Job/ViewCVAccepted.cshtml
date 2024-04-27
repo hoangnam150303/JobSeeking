@@ -1,0 +1,24 @@
+﻿@model List<ApplyCV>
+<h1>List CV of your Job</h1>
+@foreach (var obj in Model)
+{
+    @if (obj.Status == true)
+    {
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Name: @obj.JobSeekerEmail</h5>
+                </div>
+                <div class="card-body">
+                    <h5>
+                        Time Create: @obj.TimeCreate
+                        Description: @obj.Description
+                    </h5>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Detail" asp-route-Id="@obj.Id">Detail of CV</a>
+                </div>
+            </div>
+        </div>
+    }
+}

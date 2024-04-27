@@ -23,7 +23,10 @@
                         </div>
                         <div class="card-footer">
                         <a asp-area="Admin" asp-controller="ResponeCategory" asp-action="Accept" asp-route-Id="@obj.Id" class="btn btn-primary"
-                           onclick="return confirm('Are you want to accept user:@obj.Name')">Accept</a>
+                           onclick="return confirm('Are you want to accept category:@obj.Name')">Accept</a>
+                        <a asp-area="Admin" asp-controller="ResponeCategory" asp-action="Edit" asp-route-Id="@obj.Id" class="btn btn-primary">Edit</a>
+                        <a asp-area="Admin" asp-controller="ResponeCategory" asp-action="Delete" asp-route-Id="@obj.Id" class="btn btn-primary"
+                           onclick="return confirm('Are you want to delete category:@obj.Name')">Delete</a>
                         </div>
                     </div>
                 </div>

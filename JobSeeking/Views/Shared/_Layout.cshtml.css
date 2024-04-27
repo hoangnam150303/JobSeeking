@@ -99,3 +99,6 @@ button.accept-policy {
         filter: hue-rotate(180deg);
     }
 }
+.navbar-brand i{
+    color: black;
+}

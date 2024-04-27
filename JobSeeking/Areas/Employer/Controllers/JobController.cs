@@ -108,8 +108,6 @@ namespace JobSeeking.Areas.Employer.Controllers
 
             if (ModelState.IsValid)
             {
-                var currentUser = await _userManager.GetUserAsync(User);
-                jobSeeking.Job.EmployerId = currentUser.Id;
                 _unitOfWork.JobRepository.Update(jobSeeking.Job);
                 _unitOfWork.JobRepository.Save();
                 return RedirectToAction("Index");
@@ -140,6 +138,10 @@ namespace JobSeeking.Areas.Employer.Controllers
             {
                 return NotFound();
             }
+            Job? job = _unitOfWork.JobRepository.Get(c=>c.Id == id);
+            job.amountOfCV = 0;
+            _unitOfWork.JobRepository.Update(job);
+            _unitOfWork.JobRepository.Save();
             Expression<Func<ApplyCV, bool>> filter = c => c.JobId == id;
             var applyCVs = _unitOfWork.ApplyCVRepository.GetAllCV(filter);
             return View(applyCVs);
@@ -168,20 +170,6 @@ namespace JobSeeking.Areas.Employer.Controllers
             var fileContent = System.IO.File.ReadAllBytes(filePath);
             return File(fileContent, "application/pdf", Path.GetFileName(filePath));
         }
-        public IActionResult checkAmountOfCV(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var job = _unitOfWork.JobRepository.Get(c=>c.Id==id);
-            if (job==null)
-            {
-                return NotFound();
-            }
-            job.amountOfCV = 0;
-            return View("ViewAllCV");
-        }
         public IActionResult AcceptCV(int? id)
         {
             if (id == null)
@@ -197,6 +185,21 @@ namespace JobSeeking.Areas.Employer.Controllers
             _unitOfWork.ApplyCVRepository.Update(applyCV);
             _unitOfWork.ApplyCVRepository.Save();
             return RedirectToAction("Index");
+        }
+
+        public async Task< IActionResult> DetailOfJobSeeker(int? id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+            var emailUser = _unitOfWork.ApplyCVRepository.Get(c => c.Id == id);
+            var detailUser = await _userManager.FindByEmailAsync(emailUser.JobSeekerEmail);
+            if (detailUser==null)
+            {
+                return NotFound();
+            }
+            return View(detailUser);    
         }
     }
 }

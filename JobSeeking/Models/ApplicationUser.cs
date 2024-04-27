@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace JobSeeking.Models
 {
@@ -13,13 +14,14 @@ namespace JobSeeking.Models
         [ValidateNever]
         public string City { get; set; }
         [ValidateNever]
-        public string Company {  get; set; }
+        public string? Company {  get; set; }
         [ValidateNever]
         public bool isValid {  get; set; }
         [ValidateNever]
         public string? Avatar {  get; set; }
-        
 
+        [Timestamp]
+        public byte[] Version { get; set; }
 
     }
 }

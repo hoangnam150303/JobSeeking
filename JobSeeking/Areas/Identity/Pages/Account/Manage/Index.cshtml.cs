@@ -7,9 +7,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using JobSeeking.Models;
+using JobSeeking.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace JobSeeking.Areas.Identity.Pages.Account.Manage
 {
@@ -20,10 +22,12 @@ namespace JobSeeking.Areas.Identity.Pages.Account.Manage
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
+           
         }
 
         /// <summary>
@@ -52,29 +56,31 @@ namespace JobSeeking.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
-            public string Addresses { get; set; }   
+
+            public string Addresses { get; set; }
+
             public string City { get; set; }
-            public string? Avatar {  get; set; }
+
+            
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
+            var userName = await _userManager.GetUserNameAsync(user);   
             Username = userName;
 
             Input = new InputModel
             {
+                Addresses = user.Address,
+                City = user.City,
                 PhoneNumber = phoneNumber
             };
+
+
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -104,9 +110,6 @@ namespace JobSeeking.Areas.Identity.Pages.Account.Manage
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var userAddress = user.Address;
-            var userCity = user.City;
-            var userAvatar = user.Avatar;
             if (Input.PhoneNumber != phoneNumber)
             {
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
@@ -116,19 +119,20 @@ namespace JobSeeking.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
-            if (Input.Addresses != userAddress)
+            if(Input.Addresses != user.Address)
             {
-                var setAddress = Input.Addresses;
-                if (setAddress==null)
-                {
-                    StatusMessage = "Unexpected error when trying to set address.";
-                    return RedirectToPage();
-                }
+                user.Address = Input.Addresses;
             }
-
+            if (Input.City != user.City)
+            {
+                user.City = Input.City;
+            }
+            await _userManager.UpdateAsync(user);
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
+
+
     }
 }

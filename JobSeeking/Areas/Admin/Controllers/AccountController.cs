@@ -10,59 +10,82 @@ namespace JobSeeking.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class AccountController : Controller
     {
-      
         private readonly IUnitOfWork _unitOfWork;
-  
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AccountController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager) {
+        public AccountController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
+        {
             _unitOfWork = unitOfWork;
-            _userManager = userManager;           
+            _userManager = userManager;
         }
-        //View all user 
+
+        // View all users
         public IActionResult Index()
         {
+            
             List<ApplicationUser> myList = _unitOfWork.ApplicationUserRepository.GetAll().ToList();
             return View(myList);
+            
+            
         }
-        //Delete Account
-       public async Task<IActionResult> Delete(string id)
+        public IActionResult Details(string? id)
         {
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
+            if (id==null)
             {
                 return NotFound();
             }
-            else
-            {
-                await _userManager.DeleteAsync(user);
-                return RedirectToAction("Index");
-            }
-        }
-        //Lock Account
-        public async Task<IActionResult> LockAccount(string Id)
-        {
-            var user = await _userManager.FindByIdAsync(Id);
-            if (user == null)
+            ApplicationUser? user = _unitOfWork.ApplicationUserRepository.Get(c=>c.Id == id);
+            if (user==null)
             {
                 return NotFound();
             }
-           else
+            return View(user);
+        }
+        // Delete Account
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
             {
-                if (user.isValid==false)
+                var user = await _userManager.FindByIdAsync(id);
+                if (user == null)
                 {
-                    user.isValid = true;
-                    await _userManager.UpdateAsync(user);
-                    return RedirectToAction("Index");
+                    return NotFound();
                 }
                 else
                 {
-                    user.isValid = false;
+                    await _userManager.DeleteAsync(user);
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your requirement
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        // Lock Account
+        public async Task<IActionResult> LockAccount(string Id)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(Id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    user.isValid = !user.isValid;
                     await _userManager.UpdateAsync(user);
                     return RedirectToAction("Index");
                 }
             }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your requirement
+                return StatusCode(500, "Internal server error");
+            }
         }
-
     }
 }

@@ -4,6 +4,7 @@
 <h1>Edit Category</h1>
 <form asp-action="Edit" method="post">
     <input hidden asp-for="Job.Id" />
+    <input hidden asp-for="Job.EmployerId" />
     <div class="form-group">
         <label asp-for="Job.Name" class="control-label"></label>
         <input asp-for="Job.Name" class="form-control" />
