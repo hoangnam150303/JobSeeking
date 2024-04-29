@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace JobSeeking.Migrations
 {
     /// <inheritdoc />
-    public partial class AddJobSeeking : Migration
+    public partial class JobSeeking : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,6 +37,7 @@ namespace JobSeeking.Migrations
                     Company = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isValid = table.Column<bool>(type: "bit", nullable: true),
                     Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Version = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -188,7 +189,8 @@ namespace JobSeeking.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     isValid = table.Column<bool>(type: "bit", nullable: false),
                     EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreateDay = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    categoryValid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -210,10 +212,11 @@ namespace JobSeeking.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Salary = table.Column<double>(type: "float", nullable: false),
-                    CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Logo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    amountOfCV = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -236,7 +239,8 @@ namespace JobSeeking.Migrations
                     JobSeekerEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TimeCreate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CV = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CV = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {

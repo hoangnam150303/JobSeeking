@@ -132,18 +132,34 @@ namespace JobSeeking.Areas.Employer.Controllers
                 return RedirectToAction("Index");
             }
         }
-        public IActionResult ViewAllCV(int? id)
+        public IActionResult ViewAllCV(int? id, bool? status)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            Job? job = _unitOfWork.JobRepository.Get(c=>c.Id == id);
+            Job job = _unitOfWork.JobRepository.Get(j => j.Id == id);
             job.amountOfCV = 0;
             _unitOfWork.JobRepository.Update(job);
             _unitOfWork.JobRepository.Save();
-            Expression<Func<ApplyCV, bool>> filter = c => c.JobId == id;
-            var applyCVs = _unitOfWork.ApplyCVRepository.GetAllCV(filter);
+            List<ApplyCV> mylist = _unitOfWork.ApplyCVRepository.GetAll().ToList();
+            List<ApplyCV> applyCVs = mylist.Where(cv=>cv.JobId==job.Id).ToList();
+            if (status.HasValue) 
+            {
+                if (status == true)
+                {
+                    applyCVs = mylist.Where(cv => cv.JobId == job.Id && cv.Status == true).ToList();
+                }
+                else
+                {
+                    applyCVs = mylist.Where(cv => cv.JobId == job.Id && cv.Status == false).ToList();
+                }
+            }
+            else 
+            {
+                applyCVs = mylist.Where(cv => cv.JobId == job.Id && cv.Status == null).ToList();
+            }
+
             return View(applyCVs);
         }
         public IActionResult Detail(int? id) 

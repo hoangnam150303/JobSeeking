@@ -22,11 +22,8 @@ namespace JobSeeking.Areas.Admin.Controllers
         // View all users
         public IActionResult Index()
         {
-            
             List<ApplicationUser> myList = _unitOfWork.ApplicationUserRepository.GetAll().ToList();
             return View(myList);
-            
-            
         }
         public IActionResult Details(string? id)
         {

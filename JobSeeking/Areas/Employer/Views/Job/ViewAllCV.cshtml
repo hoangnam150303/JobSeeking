@@ -1,10 +1,18 @@
 ﻿@model List<ApplyCV>
 <h1>List CV of your Job</h1>
+ <style>
+        body {
+            height: 200px;
+            background-color: #E1D5E7; /* Light pastel purple */
+            background-image: linear-gradient(to right, #E1D5E7, #F8BBD0, #BBDEFB); /* Pastel purple to pastel pink to pastel blue */
+        }
+        .card-header{
+            background-color:darkcyan;
+        }
+        </style>
 @foreach(var obj in Model )
 {
-   @if (obj.Status==null)
-    {
-        <div class="col-lg-4 col-md-6 mb-4">
+   <div class="col-lg-4 col-md-6 mb-4">
             <div class="card">
                 <div class="card-header">
                     <h5>Name: @obj.JobSeekerEmail</h5>
@@ -16,9 +24,8 @@
                     </h5>
                 </div>
                 <div class="card-footer">
-                    <a asp-action="Detail" asp-route-Id="@obj.Id">Detail of CV</a>
+                    <a asp-action="Detail" asp-route-Id="@obj.Id" class="Btn btn-primary">Detail of CV</a>
                 </div>
             </div>
         </div>
-    }
 }

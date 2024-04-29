@@ -15,19 +15,6 @@ namespace JobSeeking.Repository
         {
             _db = db;
         }
-
-        public IEnumerable<ApplyCV> GetAllCV(Expression<Func<ApplyCV, bool>> filter = null)
-        {
-            IQueryable<ApplyCV> query = _db.ApplyCV;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            return query.ToList();
-        }
-
         public void Update(ApplyCV entity)
         {
             _db.ApplyCV.Update(entity);

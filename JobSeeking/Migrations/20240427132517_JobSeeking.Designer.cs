@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobSeeking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240423160702_addVariablesStatusOfApplyCV")]
-    partial class addVariablesStatusOfApplyCV
+    [Migration("20240427132517_JobSeeking")]
+    partial class JobSeeking
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,6 +79,9 @@ namespace JobSeeking.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("categoryValid")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("isValid")
                         .HasColumnType("bit");
@@ -388,6 +391,12 @@ namespace JobSeeking.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Version")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<bool>("isValid")
                         .HasColumnType("bit");

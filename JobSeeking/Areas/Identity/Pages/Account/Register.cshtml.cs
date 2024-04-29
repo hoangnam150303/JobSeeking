@@ -111,8 +111,7 @@ namespace JobSeeking.Areas.Identity.Pages.Account
             public bool isValid {  get; set; }
             public string? Avatar {  get; set; }
         }
-
-
+            
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;

@@ -17,7 +17,7 @@ namespace JobSeeking.Areas.Admin.Controllers
         //Index category
         public IActionResult Index()
         {
-            var categories = _unitOfWork.CategoryRepository.GetAllWithUser(c => c.isValid == false).ToList();
+            var categories = _unitOfWork.CategoryRepository.GetAll("User").ToList();
             return View(categories);
         }
       //Method accept category

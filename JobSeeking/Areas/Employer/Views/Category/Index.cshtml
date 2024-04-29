@@ -1,6 +1,14 @@
 ﻿@model List<Category>
 @using JobSeeking.Models
 <h1>All Categories</h1>
+ <style>
+        body {
+            height: 200px;
+            background-color: #E1D5E7; /* Light pastel purple */
+            background-image: linear-gradient(to right, #E1D5E7, #F8BBD0, #BBDEFB); /* Pastel purple to pastel pink to pastel blue */
+        }
+
+        </style>
 <a asp-action="Create" class="btn btn-primary">Create Category</a>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Notification
@@ -18,15 +26,6 @@
                     <div class="card-body">
                     <h5>
                         Valid:@obj.isValid
-                   @*  </h5>
-                        @if (obj.isValid)
-                        {
-                            <div id="notification-@obj.Id" class="alert alert-success" role="alert">
-                                Category <strong>@obj.Name</strong> has been confirmed.
-                                <button class="btn btn-primary" onclick="confirmSeen('@obj.Id')">Confirm Seen</button>
-                            </div>
-                        }
-                    <h5> *@
                         Time Create: @obj.CreateDay
                     </h5>
                     </div>
