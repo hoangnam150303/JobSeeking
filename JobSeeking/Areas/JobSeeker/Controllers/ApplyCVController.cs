@@ -1,4 +1,5 @@
-﻿using JobSeeking.Models;
+﻿using JobSeeking.Migrations;
+using JobSeeking.Models;
 using JobSeeking.Models.ViewModels;
 using JobSeeking.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
@@ -25,46 +26,41 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
 
         public IActionResult Index()
         {
-            var jobs = _unitOfWork.JobRepository.GetAll().ToList();
-            foreach (var job in jobs)
-            {
-                var categories = new List<string>();
-                foreach (var categoryIdString in job.Category)
-                {
-                    int categoryId = int.Parse(categoryIdString);
-                    var categoryName = _unitOfWork.CategoryRepository.GetCategoryNameById(categoryId);
-                    if (categoryName != null)
-                    {
-                        categories.Add(categoryName);
-                    }
-                }
-                job.Category = categories.ToArray();
-            }
+            List<Job> jobs = _unitOfWork.JobRepository.GetAll().ToList();   
             return View(jobs);
         }
 
         public IActionResult Create(int? id)
         {
+            
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
             var job = _unitOfWork.JobRepository.Get(c => c.Id == id);
-           
+            var applyCv = _unitOfWork.ApplyCVRepository.Get(a=> a.JobId == id);
+          
             if (job == null)
             {
                 return NotFound();
             }
+            if (applyCv != null && applyCv.JobId == job.Id)
+            {
+                return NotFound("This job has already been applied for.");
+            }
+
             job.amountOfCV += 1;
             _unitOfWork.JobRepository.Update(job);
             _unitOfWork.JobRepository.Save();
+
             var jobSeekingVM = new JobSeekingVM();
             jobSeekingVM.applyCV = new ApplyCV();
             jobSeekingVM.applyCV.JobId = job.Id;
-            
+
             return View(jobSeekingVM);
         }
+    
 
         [HttpPost]
         public async Task<IActionResult> Create(JobSeekingVM jobSeekingVM, IFormFile file)
@@ -75,6 +71,7 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
                 var currentUser = await _userManager.GetUserAsync(User);
                 if (currentUser != null)
                 {
+                    
                     jobSeekingVM.applyCV.JobSeekerEmail = currentUser.Email;
                     if (file != null && file.Length > 0)
                     {
@@ -156,7 +153,91 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
                 return RedirectToAction("Index");
             }
         }
-        
+
+        public IActionResult Edit(int? id)
+        {
+            if (id==null||id==0)
+            {
+                return NotFound();
+            }
+            ApplyCV applycv = _unitOfWork.ApplyCVRepository.Get(a=>a.Id == id);
+            if (applycv == null)
+            {
+                return NotFound();
+            }
+            return View(applycv);
+        }
+        [HttpPost]
+        public IActionResult Edit(ApplyCV editCV, IFormFile? file)
+        {
+
+            if (ModelState.IsValid)
+            {
+                string wwwrootPath = _webHostEnvironment.WebRootPath;
+               
+                if (file != null && file.Length > 0)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string cvPath = Path.Combine(wwwrootPath, @"CV\CVsOfJob");
+                    if (!string.IsNullOrEmpty(editCV.CV))
+                    {
+                        var oldCVPath = Path.Combine(wwwrootPath, editCV.CV.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldCVPath))
+                        {
+                            System.IO.File.Delete(oldCVPath);
+                        }
+                        // Check file extension
+                        if (!file.FileName.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ViewData["PdfValidationMessage"] = "Please upload a PDF file.";
+                            return View(editCV);
+                        }
+                        // Check file size (max 5 MB)
+                        if (file.Length > 5 * 1024 * 1024)
+                        {
+                            ModelState.AddModelError("File", "File size cannot exceed 5 MB.");
+                            return View(editCV);
+                        }
+                        // Save the file
+                        using (var fileStream = new FileStream(Path.Combine(cvPath, fileName), FileMode.Create))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+                        editCV.CV = @"\CV\CVsOfJob\" + fileName;
+                    }
+
+                   
+                }
+                _unitOfWork.ApplyCVRepository.Update(editCV);
+                _unitOfWork.ApplyCVRepository.Save();
+                return RedirectToAction("Index");
+            }
+            return View(editCV);
+        }
+        public IActionResult DownloadCV(string cvPath)
+        {
+            var filePath = Path.Combine(_webHostEnvironment.WebRootPath, cvPath.TrimStart('\\', '/'));
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+            var fileContent = System.IO.File.ReadAllBytes(filePath);
+            return File(fileContent, "application/pdf", Path.GetFileName(filePath));
+        }
+        public IActionResult FindJob(string nameJob)
+        {
+            if (string.IsNullOrEmpty(nameJob))
+            {
+                return NotFound();
+            }
+            var job = _unitOfWork.JobRepository.GetAll().Where(j=>j.Name == nameJob).ToList();
+            if (job == null)
+            {
+                return NotFound();
+            }
+            return View(job);
+        }
     }
 
 }

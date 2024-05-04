@@ -7,7 +7,7 @@
         <div class="card">
             @if (!string.IsNullOrEmpty(newsItem.image))
             {
-                <img src="@newsItem.image" width="100" height="80" class="rounded-end">
+                <img src="@newsItem.image" width="100" height="100" class="rounded-end">
             }
             <div class="card-body">
                 <h2>@newsItem.Name</h2>
@@ -20,3 +20,12 @@
         </div>
     }
 </div>
+<style>
+    .btn{
+        width:80px;
+        display:inline-block;
+    }
+    .card{
+        width:300px;
+    }
+</style>

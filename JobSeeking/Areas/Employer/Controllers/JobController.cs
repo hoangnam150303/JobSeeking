@@ -27,22 +27,7 @@ namespace JobSeeking.Areas.Employer.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var currentUser = await _userManager.GetUserAsync(User);
-            var jobs = _unitOfWork.JobRepository.GetAll().Where(j => j.EmployerId == currentUser.Id).ToList();
-            foreach (var job in jobs)
-            {
-                var categories = new List<string>();
-                foreach (var categoryIdString in job.Category)
-                {
-                    int categoryId = int.Parse(categoryIdString);
-                    var categoryName = _unitOfWork.CategoryRepository.GetCategoryNameById(categoryId);
-                    if (categoryName != null)
-                    {
-                        categories.Add(categoryName);
-                    }
-                }
-                job.Category = categories.ToArray();
-            }
+            List<Job> jobs = _unitOfWork.JobRepository.GetAll().ToList();
             return View(jobs);
         }
         public IActionResult Create()
@@ -198,6 +183,22 @@ namespace JobSeeking.Areas.Employer.Controllers
                 return NotFound();
             }
             applyCV.Status = true;
+            _unitOfWork.ApplyCVRepository.Update(applyCV);
+            _unitOfWork.ApplyCVRepository.Save();
+            return RedirectToAction("Index");
+        }
+        public IActionResult DeclineCV(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            ApplyCV? applyCV = _unitOfWork.ApplyCVRepository.Get(c => c.Id == id);
+            if (applyCV == null)
+            {
+                return NotFound();
+            }
+            applyCV.Status = false;
             _unitOfWork.ApplyCVRepository.Update(applyCV);
             _unitOfWork.ApplyCVRepository.Save();
             return RedirectToAction("Index");

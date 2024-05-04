@@ -26,6 +26,7 @@
         @if (Model.Status == false)
         {
             <a asp-area="Employer" asp-controller="Job" asp-action="AcceptCV" asp-route-Id="@Model.Id">Accept</a>
+            <a asp-area="Employer" asp-controller="Job" asp-action="DeclineCV" asp-route-Id="@Model.Id">Decline</a>
         }
 
         <button class="learn-more" asp-area="Employer" asp-controller="Job" asp-action="DetailOfJobSeeker" asp-route-Id="@Model.Id">
@@ -49,8 +50,5 @@
             </span>
         </div>
     </button>
-
-        
-
 </form>
 

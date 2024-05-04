@@ -1,5 +1,18 @@
 ﻿@model List<Job>
+<link href="~/css/search.css" rel="stylesheet" />
 <h1>Jobs</h1>
+<br />
+@{
+    Job findJob = new Job();
+}
+<form asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="FindJob">
+    <div class="input-container">
+        <label class="control-label"></label>
+        <input name="nameJob" id="nameJob" class="input form-control" placeholder="search..." />
+        <button type="submit" class="btn btn-primary">Find</button>
+    </div>
+    </form>
+<br />
 <div class="row">
     <a asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="ListCV" class="btn btn-primary">List of CV</a>
     @foreach (var job in Model)
@@ -14,11 +27,6 @@
                         <p><strong>Salary:</strong> @job.Salary</p>
                         <p><strong>Company Name:</strong> @job.CompanyName</p>
                         <img src="@job.Logo" class="card-img-top" alt="Company Logo">
-                    <strong>Categories:</strong>
-                    @foreach (var categoryName in job.Category)
-                    {
-                        <span class="badge bg-primary">@categoryName</span>
-                    }
                     </div>
                     <div class="card-footer">
                      <a asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="ViewDetailOfJob" asp-route-Id="@job.Id" class="btn btn-primary">ApplyCV</a>

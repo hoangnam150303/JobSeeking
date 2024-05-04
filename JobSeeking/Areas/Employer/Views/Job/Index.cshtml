@@ -25,11 +25,6 @@
                         <p><strong>Company Name:</strong> @job.CompanyName</p>
                         <p><strong>Email:</strong> @job.User.Email</p>
                         <img src="@job.Logo" class="card-img-top" alt="Company Logo">
-                    <strong>Categories:</strong>
-                    @foreach (var categoryName in job.Category)
-                    {
-                        <span class="badge bg-primary">@categoryName</span>
-                    }
                     </div>
                     <div class="card-footer">
                     <a asp-area="Employer" asp-controller="Job" asp-action="Edit" asp-route-Id="@job.Id" class="button">
