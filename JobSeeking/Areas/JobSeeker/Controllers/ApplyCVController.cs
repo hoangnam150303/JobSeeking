@@ -47,7 +47,8 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
             }
             if (applyCv != null && applyCv.JobId == job.Id)
             {
-                return NotFound("This job has already been applied for.");
+				TempData["error"] = "You have applied to this job!";
+				return RedirectToAction("Index");
             }
 
             job.amountOfCV += 1;
@@ -101,6 +102,7 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
                         
                         _unitOfWork.ApplyCVRepository.Add(jobSeekingVM.applyCV);
                         _unitOfWork.ApplyCVRepository.Save();
+                    TempData["success"] = " Apply CV successfully!";
                     return RedirectToAction("Index");
                 }
             }
@@ -150,6 +152,7 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
             {
                 _unitOfWork.ApplyCVRepository.Delete(applyCV);
                 _unitOfWork.ApplyCVRepository.Save();
+                TempData["success"] = " Delete CV successfully!";
                 return RedirectToAction("Index");
             }
         }
@@ -210,6 +213,7 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
                 }
                 _unitOfWork.ApplyCVRepository.Update(editCV);
                 _unitOfWork.ApplyCVRepository.Save();
+                TempData["success"] = " Update CV successfully!";
                 return RedirectToAction("Index");
             }
             return View(editCV);

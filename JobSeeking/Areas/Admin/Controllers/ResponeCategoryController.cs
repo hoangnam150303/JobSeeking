@@ -37,7 +37,7 @@ namespace JobSeeking.Areas.Admin.Controllers
                  category.isValid = true;
                 _unitOfWork.CategoryRepository.Update(category);
                 _unitOfWork.CategoryRepository.Save();
-               
+                TempData["success"] = " Accept category successfully!";
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -64,6 +64,7 @@ namespace JobSeeking.Areas.Admin.Controllers
             {
                 _unitOfWork.CategoryRepository.Update(category);
                 _unitOfWork.CategoryRepository.Save();
+                TempData["success"] = " Update category successfully!";
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -84,6 +85,7 @@ namespace JobSeeking.Areas.Admin.Controllers
             {
                 _unitOfWork.CategoryRepository.Delete(category);
                 _unitOfWork.CategoryRepository.Save();
+                TempData["success"] = " Delete category successfully!";
                 return RedirectToAction("Index");
             }
             

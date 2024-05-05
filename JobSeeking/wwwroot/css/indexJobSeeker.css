@@ -1,4 +1,9 @@
-﻿.input-container {
+﻿body {
+    height: 200px;
+    background-color: #E1D5E7; /* Light pastel purple */
+    background-image: linear-gradient(to right, #E1D5E7, #F8BBD0, #BBDEFB); /* Pastel purple to pastel pink to pastel blue */
+}
+.input-container {
     width: 220px;
     position: relative;
 }

@@ -37,16 +37,18 @@ namespace JobSeeking.Areas.Employer.Controllers
                     category.isValid = false;
                     _unitOfWork.CategoryRepository.Add(category);
                     _unitOfWork.Save();
+                    TempData["success"] = " Create category successfully!";
                     return RedirectToAction("Index");
                 }
                 else
-                {
-                    return RedirectToAction("Index");
+				{
+					TempData["error"] = " Create category unsuccessfully!";
+					return RedirectToAction("Index");
                 }
             }
             return View(category);
         }
-        public async Task<IActionResult> ToggleNotification(int id)
+        public IActionResult ToggleNotification(int id)
         {
             if (id == null)
             {
@@ -60,8 +62,6 @@ namespace JobSeeking.Areas.Employer.Controllers
 
             category.categoryValid = !category.categoryValid;
             _unitOfWork.Save();
-/*
-            TempData["Success"] = "Notification status delete successfully!";*/
             return RedirectToAction("Index");
         }
 

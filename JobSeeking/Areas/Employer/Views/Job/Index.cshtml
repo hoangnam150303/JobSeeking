@@ -1,6 +1,7 @@
 ﻿<link href="~/css/indexjob.css" rel="stylesheet" />
 @using Microsoft.AspNetCore.Identity
 @model List<Job>
+<partial name="_Notification" />
 @inject SignInManager<ApplicationUser> SignInManager
 @{
     var currentUser = await SignInManager.UserManager.GetUserAsync(User);

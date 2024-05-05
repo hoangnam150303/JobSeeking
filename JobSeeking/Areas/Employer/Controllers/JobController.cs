@@ -57,8 +57,13 @@ namespace JobSeeking.Areas.Employer.Controllers
                     jobSeeking.Job.CompanyName = currentUser.Company;
                     _unitOfWork.JobRepository.Add(jobSeeking.Job);
                     _unitOfWork.Save();
+                    TempData["success"] = " Create job successfully!";
                     return RedirectToAction("Index");
                 }
+                else
+                {
+					TempData["error"] = " Create job unsuccessfully!";
+				}
             }
             return View(jobSeeking);
         }
@@ -95,8 +100,13 @@ namespace JobSeeking.Areas.Employer.Controllers
             {
                 _unitOfWork.JobRepository.Update(jobSeeking.Job);
                 _unitOfWork.JobRepository.Save();
+                TempData["success"] = " Update news successfully!";
                 return RedirectToAction("Index");
             }
+            else
+            {
+				TempData["error"] = " Edit category unsuccessfully!";
+			}
             return View(jobSeeking);
         }
         public IActionResult Delete(int? id)
@@ -108,12 +118,14 @@ namespace JobSeeking.Areas.Employer.Controllers
             Job? job = _unitOfWork.JobRepository.Get(c => c.Id == id);
             if (job == null)
             {
-                return NotFound();
+				TempData["error"] = " Delete category unsuccessfully!";
+				return RedirectToAction("Index");
             }
             else
             {
                 _unitOfWork.JobRepository.Delete(job);
                 _unitOfWork.JobRepository.Save();
+                TempData["success"] = " Delete news successfully!";
                 return RedirectToAction("Index");
             }
         }
@@ -185,6 +197,7 @@ namespace JobSeeking.Areas.Employer.Controllers
             applyCV.Status = true;
             _unitOfWork.ApplyCVRepository.Update(applyCV);
             _unitOfWork.ApplyCVRepository.Save();
+            TempData["success"] = " Accept CV successfully!";
             return RedirectToAction("Index");
         }
         public IActionResult DeclineCV(int? id)
@@ -201,6 +214,7 @@ namespace JobSeeking.Areas.Employer.Controllers
             applyCV.Status = false;
             _unitOfWork.ApplyCVRepository.Update(applyCV);
             _unitOfWork.ApplyCVRepository.Save();
+            TempData["success"] = " Decline CV successfully!";
             return RedirectToAction("Index");
         }
 

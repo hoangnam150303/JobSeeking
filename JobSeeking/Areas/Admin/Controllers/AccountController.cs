@@ -51,6 +51,7 @@ namespace JobSeeking.Areas.Admin.Controllers
                 else
                 {
                     await _userManager.DeleteAsync(user);
+                    TempData["success"] = "Delete account successfully!";
                     return RedirectToAction("Index");
                 }
             }
@@ -64,8 +65,7 @@ namespace JobSeeking.Areas.Admin.Controllers
         // Lock Account
         public async Task<IActionResult> LockAccount(string Id)
         {
-            try
-            {
+            
                 var user = await _userManager.FindByIdAsync(Id);
                 if (user == null)
                 {
@@ -75,14 +75,11 @@ namespace JobSeeking.Areas.Admin.Controllers
                 {
                     user.isValid = !user.isValid;
                     await _userManager.UpdateAsync(user);
+                    TempData["success"] = "Lock/Unlock account successfully";
                     return RedirectToAction("Index");
                 }
-            }
-            catch (Exception ex)
-            {
-                // Log the exception or handle it as per your requirement
-                return StatusCode(500, "Internal server error");
-            }
+            
+            
         }
     }
 }

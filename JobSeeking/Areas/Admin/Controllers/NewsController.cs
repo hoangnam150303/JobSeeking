@@ -40,6 +40,7 @@ namespace JobSeeking.Areas.Admin.Controllers
                 news.image = @"\images\ImagesOfNews\" + fileName;
                 _unitOfWork.NewsRepository.Add(news);
                 _unitOfWork.NewsRepository.Save();
+                TempData["success"] = " Create news successfully!";
                 return RedirectToAction("Index");
             }
             return View(news);      
@@ -86,6 +87,7 @@ namespace JobSeeking.Areas.Admin.Controllers
                 }
                 _unitOfWork.NewsRepository.Update(news);
                 _unitOfWork.NewsRepository.Save();
+                TempData["success"] = " Update news successfully!";
                 return RedirectToAction("Index");   
             }
             return View(news);
@@ -106,6 +108,7 @@ namespace JobSeeking.Areas.Admin.Controllers
             {
                 _unitOfWork.NewsRepository.Delete(news);
                 _unitOfWork.NewsRepository.Save();
+                TempData["success"] = " Delete news successfully!";
                 return RedirectToAction("Index");
             }
 
