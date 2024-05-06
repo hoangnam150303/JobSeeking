@@ -1,5 +1,4 @@
-﻿
-@model List<Job>
+﻿@model List<Job>
 <h1>Edit Category</h1>
 <div class="row">
     @foreach (var job in Model)
@@ -16,7 +15,7 @@
                     <img src="@job.Logo" class="card-img-top" alt="Company Logo">
                 </div>
                 <div class="card-footer">
-                   <a asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Create" class="btn btn-primary">Apply</a>
+                   <a asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Create" asp-route-Id="@job.Id" class="btn btn-primary">Apply</a>
                 </div>
             </div>
         </div>

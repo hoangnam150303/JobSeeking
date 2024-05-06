@@ -4,6 +4,7 @@
 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
     <i class="bi bi-bell"></i>
 </button>
+<a asp-action="Index" class="btn btn-primary"> Back to list</a>
 <div class="row">
     @foreach (var obj in Model)
     {
@@ -16,11 +17,11 @@
                         <h5>
                             @if (obj.Status==true)
                         {
-                            <h5>Status: Accepted</h5>
+                            <h5 class="text-success">Status: Accepted</h5>
                         }
                         @if (obj.Status == false)
                         {
-                            <h5>Status: Failed</h5>
+                            <h5 class="text-danger">Status: Declined</h5>
                         }
                             Time Create: @obj.TimeCreate
                         </h5>
@@ -29,7 +30,7 @@
                         <a asp-action="Delete" asp-route-Id="@obj.Id" class="btn btn-danger"> Delete</a>
                         <a asp-action="Edit" asp-route-Id="@obj.Id" class="btn btn-primary"> Edit</a>
                     </div>
-                <a asp-action="Index" class="btn btn-primary"> Back to list</a>
+               
                 </div>
             </div>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -57,4 +58,5 @@
             </div>
         </div>
     }
+    
 </div>

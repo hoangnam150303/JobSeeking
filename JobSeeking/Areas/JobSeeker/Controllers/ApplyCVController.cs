@@ -24,45 +24,51 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        //List all Job
         public IActionResult Index()
         {
             List<Job> jobs = _unitOfWork.JobRepository.GetAll().ToList();   
             return View(jobs);
         }
 
-        public IActionResult Create(int? id)
+        //HttpGet Create CV
+        public async Task< IActionResult> Create(int? id)
         {
+            var user = await _userManager.GetUserAsync(User);
             
+            if (user==null)
+            {
+                return NotFound();
+            }
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-
             var job = _unitOfWork.JobRepository.Get(c => c.Id == id);
-            var applyCv = _unitOfWork.ApplyCVRepository.Get(a=> a.JobId == id);
-          
+            var CV = _unitOfWork.ApplyCVRepository.Get(cv => cv.JobSeekerEmail == user.Email);
             if (job == null)
             {
                 return NotFound();
             }
-            if (applyCv != null && applyCv.JobId == job.Id)
+            if (CV != null && CV.JobId == job.Id)
             {
 				TempData["error"] = "You have applied to this job!";
 				return RedirectToAction("Index");
             }
-
-            job.amountOfCV += 1;
-            _unitOfWork.JobRepository.Update(job);
-            _unitOfWork.JobRepository.Save();
-
-            var jobSeekingVM = new JobSeekingVM();
+            
+            if (CV != null && CV.JobId != job.Id)
+            {
+                job.amountOfCV += 1;
+                _unitOfWork.JobRepository.Update(job);
+                _unitOfWork.JobRepository.Save(); 
+            }
+            JobSeekingVM jobSeekingVM = new JobSeekingVM();
             jobSeekingVM.applyCV = new ApplyCV();
             jobSeekingVM.applyCV.JobId = job.Id;
-
             return View(jobSeekingVM);
         }
-    
-
+        
+        //HttpPost Create CV
         [HttpPost]
         public async Task<IActionResult> Create(JobSeekingVM jobSeekingVM, IFormFile file)
         {
@@ -108,12 +114,14 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
             }
                 return View(jobSeekingVM.applyCV);
         }
+        //List all CV
         public async Task<IActionResult> ListCV()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             List<ApplyCV> myList = _unitOfWork.ApplyCVRepository.GetAll("Job").Where(c => c.JobSeekerEmail == currentUser.Email).ToList();
             return View(myList);
         }
+        //View detail of Job
         public IActionResult ViewDetailOfJob(int? id)
         {
             if (id == null)
@@ -129,14 +137,9 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
                 }),
                 Job = _unitOfWork.JobRepository.Get(c => c.Id == id)
             };
-            jobSeekingVM.Categories = _unitOfWork.CategoryRepository.GetAll().Where(c => c.isValid).Select(c => new SelectListItem()
-            {
-                Text = c.Name,
-                Value = c.Id.ToString(),
-            });
             return View(jobSeekingVM);
         }
-
+        //Delete CV
         public IActionResult Delete(int? id)
         {
             if (id == null||id==0)
@@ -156,7 +159,7 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
                 return RedirectToAction("Index");
             }
         }
-
+        //HttpGet Edit
         public IActionResult Edit(int? id)
         {
             if (id==null||id==0)
@@ -170,6 +173,7 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
             }
             return View(applycv);
         }
+        //HttpPost Edit
         [HttpPost]
         public IActionResult Edit(ApplyCV editCV, IFormFile? file)
         {
@@ -218,6 +222,7 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
             }
             return View(editCV);
         }
+        //Download CV
         public IActionResult DownloadCV(string cvPath)
         {
             var filePath = Path.Combine(_webHostEnvironment.WebRootPath, cvPath.TrimStart('\\', '/'));
@@ -229,6 +234,7 @@ namespace JobSeeking.Areas.JobSeeker.Controllers
             var fileContent = System.IO.File.ReadAllBytes(filePath);
             return File(fileContent, "application/pdf", Path.GetFileName(filePath));
         }
+        //Find Job by name
         public IActionResult FindJob(string nameJob)
         {
             if (string.IsNullOrEmpty(nameJob))

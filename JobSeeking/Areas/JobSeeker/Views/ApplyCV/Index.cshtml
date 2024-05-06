@@ -3,9 +3,6 @@
 <link href="~/css/indexjobseeker.css" rel="stylesheet" />
 <h1>Jobs</h1>
 <br />
-@{
-    Job findJob = new Job();
-}
 <form asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="FindJob">
     <div class="input-container">
         <label class="control-label"></label>
@@ -16,6 +13,8 @@
 <br />
 <div class="row">
     <a asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="ListCV" class="btn btn-primary">List of CV</a>
+    <br />
+    <br />
     @foreach (var job in Model)
     {
             <div class="col-lg-4 col-md-6 mb-4">
@@ -30,7 +29,7 @@
                         <img src="@job.Logo" class="card-img-top" alt="Company Logo">
                     </div>
                     <div class="card-footer">
-                     <a asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="ViewDetailOfJob" asp-route-Id="@job.Id" class="btn btn-primary">ApplyCV</a>
+                     <a asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="ViewDetailOfJob" asp-route-Id="@job.Id" class="btn btn-primary">Detail Job</a>
                     </div>
                 </div>
             </div>

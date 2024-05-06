@@ -2,8 +2,8 @@
 @using JobSeeking.Models
 @inject SignInManager<ApplicationUser> SignInManager
 @model LoginModel
-
 @{
+  
     ViewData["Title"] = "Log in";
 }
 
@@ -32,6 +32,20 @@
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
                 <i class="fa-solid fa-lock"></i>
             </div>
+            @if (!ModelState.IsValid)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @foreach (var modelState in ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            <span>@error.ErrorMessage</span>
+
+                            <br />
+                        }
+                    }
+                </div>
+            }
             <div class="checkbox mb-3">
                 <label asp-for="Input.RememberMe" class="form-label">
                     <input class="form-check-input" asp-for="Input.RememberMe" />

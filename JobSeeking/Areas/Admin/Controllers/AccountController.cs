@@ -41,9 +41,7 @@ namespace JobSeeking.Areas.Admin.Controllers
         // Delete Account
         public async Task<IActionResult> Delete(string id)
         {
-            try
-            {
-                var user = await _userManager.FindByIdAsync(id);
+              var user = await _userManager.FindByIdAsync(id);
                 if (user == null)
                 {
                     return NotFound();
@@ -54,12 +52,7 @@ namespace JobSeeking.Areas.Admin.Controllers
                     TempData["success"] = "Delete account successfully!";
                     return RedirectToAction("Index");
                 }
-            }
-            catch (Exception ex)
-            {
-                // Log the exception or handle it as per your requirement
-                return StatusCode(500, "Internal server error");
-            }
+          
         }
 
         // Lock Account

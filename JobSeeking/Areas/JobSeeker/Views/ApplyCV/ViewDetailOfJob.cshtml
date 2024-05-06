@@ -20,5 +20,5 @@
         <label asp-for="Job.Category" class="col-sm-4 col-form-label">Category</label>
         <select disabled asp-for="Job.Category" class="form-select" asp-items="@Model.Categories" multiple></select>
     </div>
-    <a asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Create" asp-route-Id="@Model.Job.Id">ApplyCV</a>
+    <a asp-area="JobSeeker" asp-controller="ApplyCV" asp-action="Create" asp-route-Id="@Model.Job.Id" class="btn btn-primary">ApplyCV</a>
 </form>

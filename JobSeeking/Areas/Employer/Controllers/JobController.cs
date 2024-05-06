@@ -84,11 +84,6 @@ namespace JobSeeking.Areas.Employer.Controllers
                 }),
                 Job = _unitOfWork.JobRepository.Get(c => c.Id == id)
             };
-            jobSeekingVM.Categories = _unitOfWork.CategoryRepository.GetAll().Where(c => c.isValid).Select(c => new SelectListItem()
-            {
-                Text = c.Name,
-                Value = c.Id.ToString(),
-            });
             return View(jobSeekingVM);
         }
 
@@ -105,7 +100,7 @@ namespace JobSeeking.Areas.Employer.Controllers
             }
             else
             {
-				TempData["error"] = " Edit category unsuccessfully!";
+				TempData["error"] = " Edit category fail!";
 			}
             return View(jobSeeking);
         }
@@ -140,7 +135,7 @@ namespace JobSeeking.Areas.Employer.Controllers
             _unitOfWork.JobRepository.Update(job);
             _unitOfWork.JobRepository.Save();
             List<ApplyCV> mylist = _unitOfWork.ApplyCVRepository.GetAll().ToList();
-            List<ApplyCV> applyCVs = mylist.Where(cv=>cv.JobId==job.Id).ToList();
+            List<ApplyCV> applyCVs = new List<ApplyCV>();
             if (status.HasValue) 
             {
                 if (status == true)

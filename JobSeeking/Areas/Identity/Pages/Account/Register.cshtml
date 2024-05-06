@@ -60,6 +60,20 @@
                     </div>
                 </div>
             </div>
+            @if (!ModelState.IsValid)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @foreach (var modelState in ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            <span>@error.ErrorMessage</span>
+
+                            <br />
+                        }
+                    }
+                </div>
+            }
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Create</button>
         </form>
         <p class="message">Already registered? <a asp-area="Identity" asp-page="/Account/Login">Sign In</a></p>
